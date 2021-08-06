@@ -1,0 +1,140 @@
+<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; padding:20px; background-color:#EEEEEE"
+     fxLayout="row" fxLayoutAlign="stretch center">
+
+  <div fxLayoutAlign="center center" fxLayout="row" fxFill>
+    <mat-card fxLayout="row" fxLayout.lt-sm="column" id="box" fxFlex="80" fxFlex.lt-md="100">
+
+      <div fxFlex="60" id="cover" fxLayoutAlign="center center"></div>
+      <div id="cover-sm" fxLayoutAlign="center center"></div>
+
+      <div fxFlex="40" id="form" fxLayout="column">
+        <mat-card-title>SIGN UP FOR HEADING FOR THE FUTURE</mat-card-title>
+
+        <mat-card-content fxLayout="column" fxLayoutGap="15px">
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="50">
+              <mat-label>First Name</mat-label>
+              <input matInput [(ngModel)]="form.first_name">
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <mat-label>Last Name</mat-label>
+              <input matInput  [(ngModel)]="form.last_name">
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Email Address</mat-label>
+              <input matInput  [(ngModel)]="form.email">
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Phone Number (WhatsApp)</mat-label>
+              <input matInput  [(ngModel)]="form.phone">
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px">
+
+            <mat-label class="label">Where are you from?</mat-label>
+            <mat-radio-group aria-label="Select an option" fxLayoutGap="50px" fxLayout.lt-sm="column" fxLayoutGap.lt-sm="20px"
+                             [(ngModel)]="form.from">
+              <mat-radio-button value="local">Sri Lanka</mat-radio-button>
+              <mat-radio-button value="international">Another Country</mat-radio-button>
+            </mat-radio-group>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px" *ngIf="form.from=='local'">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>University/Institute</mat-label>
+              <input type="text"
+                     aria-label="Number"
+                     matInput
+                     [matAutocomplete]="auto" [(ngModel)]="form.university"/>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let university of universities" [value]="university">
+                  {{university}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px" *ngIf="form.from=='international'">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Country or Territory</mat-label>
+              <input type="text"
+                     aria-label="Number"
+                     matInput
+                     [matAutocomplete]="auto" [(ngModel)]="form.country"/>
+              <mat-autocomplete #auto="matAutocomplete">
+                <mat-option *ngFor="let country of countries" [value]="country">
+                  {{country}}
+                </mat-option>
+              </mat-autocomplete>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Field(s) of Interest</mat-label>
+              <input matInput  [(ngModel)]="form.interest">
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="0px">
+
+            <input hidden type="file" accept=".pdf" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+
+            <div class="file-upload" fxLayout="column" fxLayoutGap="10px">
+              <mat-label class="label">Upload your curriculum vitae (PDF)</mat-label>
+
+              <div fxLayout="row" fxLayoutAlign="start center">
+                <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
+                  <mat-icon>attach_file</mat-icon>
+                </button>
+                {{form.cv || "" }}
+              </div>
+
+            </div>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px" style="padding-top:20px;">
+
+            <mat-checkbox></mat-checkbox>
+            <span> I have read and agree to AIESEC Sri Lanka's <a  target="_blank" href="https://aiesec.lk/privacy-policy">Privacy Policy</a>
+              and I may be contacted by AIESEC representatives for further processing.</span>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <button class="submit_button" mat-raised-button color="primary">SUBMIT</button>
+
+          </div>
+
+        </mat-card-content>
+
+      </div>
+
+    </mat-card>
+  </div>
+
+</div>
