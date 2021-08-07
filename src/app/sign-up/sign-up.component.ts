@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SignUpService} from "../sign-up.service";
 import {Observable} from "rxjs";
-import {FormControl} from "@angular/forms";
+import {FormControl, FormGroup} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
 
 @Component({
@@ -22,20 +22,27 @@ export class SignUpComponent implements OnInit {
     filtered: null as null | Observable<string[]>
   };
 
-  formControls = {
-    universitiesControl: new FormControl(),
-    countriesControl: new FormControl()
-  }
+  form = new FormGroup({
+    first_name: new FormControl(),
+    last_name: new FormControl(),
+    email: new FormControl(),
+    phone: new FormControl(),
+    from: new FormControl(),
+    university: new FormControl(),
+    country: new FormControl(),
+    interest: new FormControl(),
+    cv: new FormControl()
+  });
 
   formData = {
-    first_name: null,
-    last_name: null,
-    email: null,
-    phone: null,
-    from: "local",
-    university: null,
-    country: null,
-    interest: null,
+    first_name: null as null | string,
+    last_name: null as null | string,
+    email: null as null | string,
+    phone: null as null | string,
+    from: "local" as string,
+    university: null as null | string,
+    country: null as null | string,
+    interest: null as null | string,
     cv: ""
   }
 
@@ -51,13 +58,15 @@ export class SignUpComponent implements OnInit {
       this.countries.raw = data;
     });
 
-    this.universities.filtered = this.formControls.universitiesControl.valueChanges
+    // @ts-ignore
+    this.universities.filtered = this.form.get("university").valueChanges
       .pipe(
         startWith(''),
         map((value: any) => this._filter(value, this.universities.raw))
       );
 
-    this.countries.filtered = this.formControls.countriesControl.valueChanges
+    // @ts-ignore
+    this.countries.filtered = this.form.get("university").valueChanges
       .pipe(
         startWith(''),
         map((value: any) => this._filter(value, this.countries.raw))
@@ -75,7 +84,9 @@ export class SignUpComponent implements OnInit {
   }
 
   submitForm() {
-
+    this.signUpService.submitForm(this.form.value).subscribe(data => {
+      console.log(data)
+    });
   }
 
   private _filter(value: string, options: string[]): string[] {

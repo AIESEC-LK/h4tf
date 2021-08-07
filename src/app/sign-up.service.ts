@@ -16,4 +16,9 @@ export class SignUpService {
   getCountries(): Observable<string[]> {
     return this.http.get<string[]>("assets/data/countries.json");
   }
+
+  submitForm(formData: {}): Observable<any> {
+    console.log("sf");
+    return this.http.post("/api/sign-up", formData);
+  }
 }

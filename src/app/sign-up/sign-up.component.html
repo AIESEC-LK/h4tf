@@ -10,18 +10,18 @@
       <div fxFlex="40" id="form" fxLayout="column">
         <mat-card-title>SIGN UP FOR HEADING FOR THE FUTURE</mat-card-title>
 
-        <mat-card-content fxLayout="column" fxLayoutGap="15px">
+        <mat-card-content fxLayout="column" fxLayoutGap="15px" [formGroup]="form">
 
           <div fxLayout="row" fxLayoutGap="20px">
 
             <mat-form-field fxFlex="50">
               <mat-label>First Name</mat-label>
-              <input matInput [(ngModel)]="formData.first_name">
+              <input matInput formControlName="first_name">
             </mat-form-field>
 
             <mat-form-field fxFlex="50">
               <mat-label>Last Name</mat-label>
-              <input matInput  [(ngModel)]="formData.last_name">
+              <input matInput formControlName="last_name">
             </mat-form-field>
 
           </div>
@@ -30,7 +30,7 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Email Address</mat-label>
-              <input matInput  [(ngModel)]="formData.email">
+              <input matInput formControlName="email">
             </mat-form-field>
 
           </div>
@@ -39,7 +39,7 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Phone Number (WhatsApp)</mat-label>
-              <input matInput  [(ngModel)]="formData.phone">
+              <input matInput formControlName="phone">
             </mat-form-field>
 
           </div>
@@ -47,8 +47,8 @@
           <div fxLayout="column" fxLayoutGap="20px">
 
             <mat-label class="label">Where are you from?</mat-label>
-            <mat-radio-group aria-label="Select an option" fxLayoutGap="50px" fxLayout.lt-sm="column" fxLayoutGap.lt-sm="20px"
-                             [(ngModel)]="formData.from">
+            <mat-radio-group aria-label="Select an option" fxLayoutGap="50px" fxLayout.lt-sm="column"
+                             fxLayoutGap.lt-sm="20px" formControlName="from">
               <mat-radio-button value="local">Sri Lanka</mat-radio-button>
               <mat-radio-button value="international">Another Country</mat-radio-button>
             </mat-radio-group>
@@ -58,12 +58,12 @@
           <div fxLayout="column" fxLayoutGap="20px" *ngIf="formData.from=='local'">
 
             <mat-form-field fxFlex="100">
-              <mat-label>University/Institute</mat-label>
+              <mat-label>University or Institute</mat-label>
               <input type="text"
                      aria-label="Number"
                      matInput
-                     [formControl]="formControls.universitiesControl"
-                     [matAutocomplete]="auto" [(ngModel)]="formData.university"/>
+                     formControlName="university"
+                     [matAutocomplete]="auto"/>
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let university of universities.filtered | async" [value]="university">
                   {{university}}
@@ -80,8 +80,8 @@
               <input type="text"
                      aria-label="Number"
                      matInput
-                     [formControl]="formControls.countriesControl"
-                     [matAutocomplete]="auto" [(ngModel)]="formData.country"/>
+                     formControlName="country"
+                     [matAutocomplete]="auto"/>
               <mat-autocomplete #auto="matAutocomplete">
                 <mat-option *ngFor="let country of countries.filtered | async" [value]="country">
                   {{country}}
@@ -95,14 +95,15 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Field(s) of Interest</mat-label>
-              <input matInput  [(ngModel)]="formData.interest">
+              <input matInput formControlName="interest">
             </mat-form-field>
 
           </div>
 
           <div fxLayout="row" fxLayoutGap="0px">
 
-            <input hidden type="file" accept=".pdf" class="file-input" (change)="onFileSelected($event)" #fileUpload>
+            <input hidden type="file" accept=".pdf" class="file-input" formControlName="cv"
+                   (change)="onFileSelected($event)" #fileUpload>
 
             <div class="file-upload" fxLayout="column" fxLayoutGap="10px">
               <mat-label class="label">Upload your curriculum vitae (PDF)</mat-label>
@@ -129,9 +130,7 @@
           </div>
 
           <div fxLayout="row" fxLayoutGap="20px">
-
             <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()">SUBMIT</button>
-
           </div>
 
         </mat-card-content>
