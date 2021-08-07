@@ -36,19 +36,13 @@ export class SignUpComponent implements OnInit {
     year: new FormControl(),
     interest: new FormControl(),
     consent: new FormControl(null,  [Validators.requiredTrue]),
-    cv: new FormControl()
+    cv: new FormControl(),
+    cv_filename: new FormControl()
   });
 
   formData = {
-    first_name: null as null | string,
-    last_name: null as null | string,
-    email: null as null | string,
-    phone: null as null | string,
-    from: "local" as string,
-    university: null as null | string,
-    country: null as null | string,
-    interest: null as null | string,
-    cv: ""
+    cv: "",
+    cv_file: null as null | File
   }
 
   constructor(private http: HttpClient, private signUpService: SignUpService, private dialog: MatDialog) {
@@ -81,26 +75,21 @@ export class SignUpComponent implements OnInit {
   // @ts-ignore
   onFileSelected(event) {
     const file:File = event.target.files[0];
+    this.formData.cv_file = file;
     if (file) {
       this.formData.cv = file.name;
-      const formData = new FormData();
-      formData.append("thumbnail", file);
     }
   }
 
-  submitForm() {
-    if (!this.form.valid) {
-      this.dialog.open(DialogComponent, {
-        data: {
-          type: "error",
-          title: "ERROR",
-          message: "There was an error with your form."
-        }
-      })
-      return;
-    }
+  async submitForm() {
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
-    this.signUpService.submitForm(this.form.value).then(result => {
+    try {
+      //if (!this.form.valid) throw "There was an error with your form";
+      let fileName: string = "";
+      if (this.formData.cv_file != null) fileName = await this.signUpService.uploadCV(<File>this.formData.cv_file);
+      this.form.get("cv_filename")?.setValue(fileName);
+      await this.signUpService.submitForm(this.form.value);
+
       this.dialog.open(DialogComponent, {
         data: {
           type: "success",
@@ -108,19 +97,21 @@ export class SignUpComponent implements OnInit {
           message: "One of our representatives will be in touch with you shortly"
         }
       }).afterClosed().subscribe(() => {
-        //window.location.href = "https://aiesec.lk"
+        window.location.href = "https://aiesec.lk/h4tf"
       })
-    }).catch(result => {
-      this.dialog.open(DialogComponent, {
-        data: {
-          type: "error",
-          title: "ERROR",
-          message: result
-        }
-      })
-    }).finally(() => {
+
+    } catch (err){
+        this.dialog.open(DialogComponent, {
+          data: {
+            type: "error",
+            title: "ERROR",
+            message: err
+          }
+        })
+    } finally {
       loadingDialog.close();
-    })
+    }
+    return;
   }
 
   private _filter(value: string, options: string[]): string[] {

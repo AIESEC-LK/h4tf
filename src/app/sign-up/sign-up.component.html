@@ -1,4 +1,4 @@
-<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; padding:20px; background-color:#EEEEEE"
+<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; padding:50px; background-color:#EEEEEE"
      fxLayout="row" fxLayoutAlign="stretch center">
 
   <div fxLayoutAlign="center center" fxLayout="row" fxFill>
@@ -44,7 +44,7 @@
 
           </div>
 
-          <div fxLayout="column" fxLayoutGap="20px">
+          <div fxLayout="column" fxLayoutGap="10px">
 
             <mat-label class="label">Where are you from?</mat-label>
             <mat-radio-group aria-label="Select an option" fxLayoutGap="50px" fxLayout.lt-sm="column"
@@ -125,7 +125,7 @@
                 <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
                   <mat-icon>attach_file</mat-icon>
                 </button>
-                {{formData.cv || "" }}
+                {{ formData.cv || "" }}
               </div>
 
             </div>
@@ -144,7 +144,7 @@
 
           <div fxLayout="row" fxLayoutGap="20px">
             <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()"
-                    [disabled]="!form.valid">
+                    [disabled]="form.valid">
               SUBMIT
             </button>
           </div>

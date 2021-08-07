@@ -3,7 +3,6 @@
 }
 
 .content {
-  text-align:center;
 }
 
 .container {
@@ -35,4 +34,6 @@
 
 ::ng-deep.mat-dialog-container {
   padding:0;
+  margin:20px;
+  max-width:500px;
 }
