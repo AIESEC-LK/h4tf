@@ -1,20 +1,6 @@
 {
   "hosting": [
     {
-      "public": "dist/h4tf",
-      "ignore": [
-        "firebase.json",
-        "**/.*",
-        "**/node_modules/**"
-      ],
-      "rewrites": [
-        {
-          "source": "**",
-          "destination": "/index.html"
-        }
-      ]
-    },
-    {
       "target": "h4tf",
       "public": "dist/h4tf",
       "ignore": [

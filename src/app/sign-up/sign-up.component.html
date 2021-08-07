@@ -10,18 +10,18 @@
       <div fxFlex="40" id="form" fxLayout="column">
         <mat-card-title>SIGN UP FOR HEADING FOR THE FUTURE</mat-card-title>
 
-        <mat-card-content fxLayout="column" fxLayoutGap="15px" [formGroup]="form">
+        <mat-card-content fxLayout="column" fxLayoutGap="15px" [formGroup]="form" (ngSubmit)="submitForm()">
 
           <div fxLayout="row" fxLayoutGap="20px">
 
             <mat-form-field fxFlex="50">
               <mat-label>First Name</mat-label>
-              <input matInput formControlName="first_name">
+              <input matInput formControlName="first_name" required>
             </mat-form-field>
 
             <mat-form-field fxFlex="50">
               <mat-label>Last Name</mat-label>
-              <input matInput formControlName="last_name">
+              <input matInput formControlName="last_name" required>
             </mat-form-field>
 
           </div>
@@ -30,7 +30,7 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Email Address</mat-label>
-              <input matInput formControlName="email">
+              <input matInput formControlName="email" type="email" required>
             </mat-form-field>
 
           </div>
@@ -39,7 +39,7 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Phone Number (WhatsApp)</mat-label>
-              <input matInput formControlName="phone">
+              <input matInput formControlName="phone" placeholder="07XXXXXXXX | +YY 7XXXXXXXX" type="tel" required>
             </mat-form-field>
 
           </div>
@@ -134,7 +134,7 @@
 
           <div fxLayout="row" fxLayoutGap="20px" style="padding-top:20px;">
 
-            <mat-checkbox></mat-checkbox>
+            <mat-checkbox formControlName="consent" required></mat-checkbox>
             <span>
               I have read and agree to AIESEC Sri Lanka's <a  target="_blank" href="https://aiesec.lk/privacy-policy">Privacy Policy</a>
               and I may be contacted by AIESEC representatives for further processing.
@@ -143,7 +143,10 @@
           </div>
 
           <div fxLayout="row" fxLayoutGap="20px">
-            <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()">SUBMIT</button>
+            <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()"
+                    [disabled]="!form.valid">
+              SUBMIT
+            </button>
           </div>
 
         </mat-card-content>
