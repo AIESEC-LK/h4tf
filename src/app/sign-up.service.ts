@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
+import { AngularFirestore } from '@angular/fire/firestore';
 
 @Injectable({
   providedIn: 'root'
 })
 export class SignUpService {
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore) { }
 
   getUniversities(): Observable<string[]> {
    return this.http.get<string[]>("assets/data/universities.json");
@@ -17,8 +18,8 @@ export class SignUpService {
     return this.http.get<string[]>("assets/data/countries.json");
   }
 
-  submitForm(formData: {}): Observable<any> {
-    console.log("sf");
-    return this.http.post("/api/sign-up", formData);
+  submitForm(formData: {}): Promise<any> {
+    return this.firestore.collection('participants').add(formData);
   }
+
 }

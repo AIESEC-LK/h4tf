@@ -4,6 +4,8 @@ import {SignUpService} from "../sign-up.service";
 import {Observable} from "rxjs";
 import {FormControl, FormGroup} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
+import {MatDialog} from '@angular/material/dialog';
+import {DialogComponent} from "../dialog/dialog.component";
 
 @Component({
   selector: 'app-sign-up',
@@ -47,7 +49,7 @@ export class SignUpComponent implements OnInit {
     cv: ""
   }
 
-  constructor(private http: HttpClient, private signUpService: SignUpService) {
+  constructor(private http: HttpClient, private signUpService: SignUpService, private dialog: MatDialog) {
   }
 
   ngOnInit(): void {
@@ -85,9 +87,28 @@ export class SignUpComponent implements OnInit {
   }
 
   submitForm() {
-    this.signUpService.submitForm(this.form.value).subscribe(data => {
-      console.log(data)
-    });
+    let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
+    this.signUpService.submitForm(this.form.value).then(result => {
+      this.dialog.open(DialogComponent, {
+        data: {
+          type: "success",
+          title: "You have successfully signed up",
+          message: "One of our representatives will be in touch with you shortly"
+        }
+      }).afterClosed().subscribe(() => {
+        //window.location.href = "https://aiesec.lk"
+      })
+    }).catch(result => {
+      this.dialog.open(DialogComponent, {
+        data: {
+          type: "error",
+          title: "ERROR",
+          message: result
+        }
+      })
+    }).finally(() => {
+      loadingDialog.close();
+    })
   }
 
   private _filter(value: string, options: string[]): string[] {
