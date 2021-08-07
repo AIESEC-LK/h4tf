@@ -25,6 +25,8 @@ import {AngularFireModule} from "@angular/fire";
 import { DialogComponent } from './dialog/dialog.component';
 import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dialog";
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
+import {AngularFireFunctionsModule, USE_EMULATOR} from '@angular/fire/functions';
+import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
 
 @NgModule({
   declarations: [
@@ -53,7 +55,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
     ReactiveFormsModule,
     AngularFireModule.initializeApp(environment.firebase),
     MatDialogModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    AngularFireFunctionsModule,
+    AngularFireStorageModule
   ],
   providers: [
     {
@@ -63,7 +67,9 @@ import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
         ssl: false
       }
     },
-    {provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true}}
+    { provide: USE_EMULATOR, useValue: environment.production? undefined : ['localhost', 5001] },
+    { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true} },
+    { provide: BUCKET, useValue: 'h4tf-portal.appspot.com' }
   ],
   entryComponents: [
     DialogComponent
