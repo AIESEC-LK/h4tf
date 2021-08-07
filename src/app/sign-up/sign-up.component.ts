@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SignUpService} from "../sign-up.service";
 import {Observable} from "rxjs";
-import {FormControl, FormGroup} from "@angular/forms";
+import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from "../dialog/dialog.component";
@@ -25,15 +25,17 @@ export class SignUpComponent implements OnInit {
   years = ["School Leaver", "1st Year", "2nd Year", "3rd Year", "4th Year", "Graduate"];
 
   form = new FormGroup({
-    first_name: new FormControl(),
-    last_name: new FormControl(),
-    email: new FormControl(),
-    phone: new FormControl(),
-    from: new FormControl(),
+    first_name: new FormControl(null, [Validators.required]),
+    last_name: new FormControl(null, [Validators.required]),
+    email: new FormControl(null, [Validators.required, Validators.email]),
+    phone: new FormControl(null, [Validators.required,
+      Validators.pattern('(^(0\\s*)([0-9]\\s*){8}[0-9]$)|^\\+([0-9]\\s*)*$')]),
+    from: new FormControl(null, [Validators.required]),
     university: new FormControl(),
     country: new FormControl(),
     year: new FormControl(),
     interest: new FormControl(),
+    consent: new FormControl(null,  [Validators.requiredTrue]),
     cv: new FormControl()
   });
 
@@ -87,6 +89,16 @@ export class SignUpComponent implements OnInit {
   }
 
   submitForm() {
+    if (!this.form.valid) {
+      this.dialog.open(DialogComponent, {
+        data: {
+          type: "error",
+          title: "ERROR",
+          message: "There was an error with your form."
+        }
+      })
+      return;
+    }
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
     this.signUpService.submitForm(this.form.value).then(result => {
       this.dialog.open(DialogComponent, {
