@@ -1,0 +1,14 @@
+{
+  "projects": {
+    "default": "h4tf-portal"
+  },
+  "targets": {
+    "h4tf-portal": {
+      "hosting": {
+        "h4tf": [
+          "h4tf-portal"
+        ]
+      }
+    }
+  }
+}

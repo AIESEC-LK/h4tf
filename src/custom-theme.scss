@@ -1,0 +1,67 @@
+$h4tf-palette: (
+  50: #019875,
+  100: #019875,
+  200: #019875,
+  300: #019875,
+  400: #019875,
+  500: #019875,
+  600: #019875,
+  700: #019875,
+  800: #019875,
+  900: #019875,
+  A100: #019875,
+  A200: #019875,
+  A400: #019875,
+  A700: #019875,
+  contrast: (
+    50: #FFFFFF,
+    100: #FFFFFF,
+    200: #FFFFFF,
+    300: #FFFFFF,
+    400: #FFFFFF,
+    500: #FFFFFF,
+    600: #FFFFFF,
+    700: #FFFFFF,
+    800: #FFFFFF,
+    900: #FFFFFF,
+    A100: #FFFFFF,
+    A200: #FFFFFF,
+    A400: #FFFFFF,
+    A700: #FFFFFF,
+  )
+);
+
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming
+@use '~@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+// Define the palettes for your theme using the Material Design palettes available in palette.scss
+// (imported above). For each palette, you can optionally specify a default, lighter, and darker
+// hue. Available color palettes: https://material.io/design/color/
+$h4tf-primary: mat.define-palette($h4tf-palette, 700);
+$h4tf-accent: mat.define-palette($h4tf-palette, 700);
+
+// The warn palette is optional (defaults to red).
+$h4tf-warn: mat.define-palette(mat.$red-palette);
+
+// Create the theme object. A theme consists of configurations for individual
+// theming systems such as "color" or "typography".
+$h4tf-theme: mat.define-light-theme((
+  color: (
+    primary: $h4tf-primary,
+    accent: $h4tf-accent,
+    warn: $h4tf-warn,
+  )
+));
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($h4tf-theme);
+
