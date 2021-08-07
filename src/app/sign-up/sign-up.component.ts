@@ -98,7 +98,7 @@ export class SignUpComponent implements OnInit {
           message: "One of our representatives will be in touch with you shortly"
         }
       }).afterClosed().subscribe(() => {
-        //window.location.href = "https://aiesec.lk/h4tf"
+        window.location.href = "https://aiesec.lk/h4tf"
       })
     } catch (err){
         this.dialog.open(DialogComponent, {
