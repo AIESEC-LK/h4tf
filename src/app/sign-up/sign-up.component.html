@@ -55,7 +55,7 @@
 
           </div>
 
-          <div fxLayout="column" fxLayoutGap="20px" *ngIf="formData.from=='local'">
+          <div fxLayout="column" fxLayoutGap="20px" *ngIf="form.get('from')!.value === 'local'">
 
             <mat-form-field fxFlex="100">
               <mat-label>University or Institute</mat-label>
@@ -73,7 +73,7 @@
 
           </div>
 
-          <div fxLayout="column" fxLayoutGap="20px" *ngIf="formData.from=='international'">
+          <div fxLayout="column" fxLayoutGap="20px" *ngIf="form.get('from')!.value === 'international'">
 
             <mat-form-field fxFlex="100">
               <mat-label>Country or Territory</mat-label>
@@ -96,6 +96,19 @@
             <mat-form-field fxFlex="100">
               <mat-label>Field(s) of Interest</mat-label>
               <input matInput formControlName="interest">
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px">
+
+            <mat-form-field>
+              <mat-label>Year of Study</mat-label>
+              <mat-select formControlName="year">
+                <mat-option *ngFor="let year of years" [value]="year">
+                  {{year}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
 
           </div>

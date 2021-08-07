@@ -16,11 +16,11 @@ export class SignUpComponent implements OnInit {
     raw: [] as string[],
     filtered: null as null | Observable<string[]>
   };
-
   countries = {
     raw: [] as string[],
     filtered: null as null | Observable<string[]>
   };
+  years = ["School Leaver", "1st Year", "2nd Year", "3rd Year", "4th Year", "Graduate"];
 
   form = new FormGroup({
     first_name: new FormControl(),
@@ -30,6 +30,7 @@ export class SignUpComponent implements OnInit {
     from: new FormControl(),
     university: new FormControl(),
     country: new FormControl(),
+    year: new FormControl(),
     interest: new FormControl(),
     cv: new FormControl()
   });
@@ -66,7 +67,7 @@ export class SignUpComponent implements OnInit {
       );
 
     // @ts-ignore
-    this.countries.filtered = this.form.get("university").valueChanges
+    this.countries.filtered = this.form.get("country").valueChanges
       .pipe(
         startWith(''),
         map((value: any) => this._filter(value, this.countries.raw))
