@@ -85,6 +85,7 @@ export class SignUpComponent implements OnInit {
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
     try {
       //if (!this.form.valid) throw "There was an error with your form";
+      if (await this.signUpService.checkDuplicateEmail(this.form.get("email")?.value)) throw "Your email has already been used to sign up.";
       let fileName: string = "";
       if (this.formData.cv_file != null) fileName = await this.signUpService.uploadCV(<File>this.formData.cv_file);
       this.form.get("cv_filename")?.setValue(fileName);
@@ -97,9 +98,8 @@ export class SignUpComponent implements OnInit {
           message: "One of our representatives will be in touch with you shortly"
         }
       }).afterClosed().subscribe(() => {
-        window.location.href = "https://aiesec.lk/h4tf"
+        //window.location.href = "https://aiesec.lk/h4tf"
       })
-
     } catch (err){
         this.dialog.open(DialogComponent, {
           data: {

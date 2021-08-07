@@ -19,8 +19,8 @@ export class SignUpService {
     return this.http.get<string[]>("assets/data/countries.json");
   }
 
-  submitForm(formData: {}): Promise<any> {
-    return this.firestore.collection('participants').add(formData);
+  submitForm(formData: any): Promise<any> {
+    return this.firestore.collection('participants').doc(formData.email).set(formData);
   }
 
   async uploadCV(cv: File): Promise<string> {
@@ -30,4 +30,8 @@ export class SignUpService {
     return fileName;
   }
 
+  async checkDuplicateEmail(email: string): Promise<Boolean> {
+    let doc = await this.firestore.collection('participants').doc(email).get().toPromise();
+    return doc.exists;
+  }
 }
