@@ -1,0 +1,64 @@
+<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'">
+
+  <div *ngIf="participants.length == 0" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div fxLayout fxLayoutAlign="end end" *ngIf="participants.length != 0">
+    <mat-form-field>
+      <input matInput type="text" (keyup)="doFilter()" placeholder="Filter" [(ngModel)]="filter">
+    </mat-form-field>
+  </div>
+
+
+  <table mat-table matSort [dataSource]="dataSource" [hidden]="participants.length == 0" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="first_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
+      <td mat-cell *matCellDef="let participant"> {{participant.first_name}} {{participant.last_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email </th>
+      <td mat-cell *matCellDef="let participant"> {{participant.email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="phone">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Phone </th>
+      <td mat-cell *matCellDef="let participant"> {{participant.phone}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="from">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Local/International </th>
+      <td mat-cell *matCellDef="let participant"> {{participant.from}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="institute">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Institute/Country </th>
+      <td mat-cell *matCellDef="let participant"> {{ participant.from == 'local' ? participant.university: participant.country}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="year">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Year of Study </th>
+      <td mat-cell *matCellDef="let participant"> {{ participant.year }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="interest">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Fields of Interest </th>
+      <td mat-cell *matCellDef="let participant"> {{ participant.interest }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="cv">
+      <th mat-header-cell *matHeaderCellDef> CV </th>
+      <td mat-cell *matCellDef="let participant">
+        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal.appspot.com/o/{{ participant.cv_filename }}?alt=media">CV</a>
+      </td>
+    </ng-container>
+
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns: columnsToDisplay"></tr>
+
+  </table>
+
+</div>

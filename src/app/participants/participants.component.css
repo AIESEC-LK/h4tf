@@ -1,0 +1,32 @@
+.pad_table {
+  margin-left:100px;
+  margin-right:100px;
+}
+
+::ng-deep tr.mat-header-row {
+  height: 56px;
+  background-color:#019875;
+
+}
+
+::ng-deep th.mat-header-cell {
+  text-align: left;
+  color:white;
+  font-weight:500;
+}
+
+::ng-deep .mat-cell, .mat-footer-cell {
+  font-size: 12px;
+}
+
+::ng-deep tr.mat-row:hover {
+  background-color:#F4F4F4;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color:white;
+}
+
+::ng-deep table.mat-table {
+  border-radius:5px;
+}

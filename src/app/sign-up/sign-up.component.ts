@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import {HttpClient} from "@angular/common/http";
-import {SignUpService} from "../sign-up.service";
+import {SignUpService} from "./sign-up.service";
 import {Observable} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';

@@ -1,13 +1,10 @@
 const functions = require("firebase-functions");
-const drive = require("./drive.js");
+const admin = require('firebase-admin');
+admin.initializeApp();
+const db = admin.firestore();
 
-exports.upload_cv = functions.https.onRequest(async (request, response) => {
-  response.setHeader("Access-Control-Allow-Origin", "*");
-  response.setHeader("Access-Control-Allow-Credentials", "true");
-  response.setHeader("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT");
-  response.setHeader("Access-Control-Allow-Headers", "Access-Control-Allow-Headers, Origin,Accept, X-Requested-With, Content-Type, Access-Control-Request-Method, Access-Control-Request-Headers");
-  //console.log(request.body.data['cv'])// ;
-  console.log(Buffer.from(request.body.data, 'base64').toString());
-  //await drive.create(request.body.data);
-  response.send(request.body.data);
+exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
+    const userClaims = (await db.collection('users').doc(user.email).get()).data();
+    await admin.auth().setCustomUserClaims(user.uid, userClaims);
+    console.log((await admin.auth().getUser(user.uid)).customClaims);
 });
