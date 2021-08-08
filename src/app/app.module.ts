@@ -27,12 +27,22 @@ import {MAT_DIALOG_DEFAULT_OPTIONS, MatDialogModule} from "@angular/material/dia
 import {MatProgressSpinnerModule} from "@angular/material/progress-spinner";
 import {AngularFireFunctionsModule, USE_EMULATOR} from '@angular/fire/functions';
 import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
+import { LoginComponent } from './login/login.component';
+import { SETTINGS as AUTH_SETTINGS, AngularFireAuthModule } from '@angular/fire/auth';
+import "firebase/auth";
+import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
+import { ParticipantsComponent } from './participants/participants.component';
+import {MatTableModule} from "@angular/material/table";
+import {MatSortModule} from "@angular/material/sort";
+
 
 @NgModule({
   declarations: [
     AppComponent,
     SignUpComponent,
-    DialogComponent
+    DialogComponent,
+    LoginComponent,
+    ParticipantsComponent
   ],
   imports: [
     BrowserModule,
@@ -53,11 +63,14 @@ import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
     MatButtonModule,
     MatCheckboxModule,
     ReactiveFormsModule,
-    AngularFireModule.initializeApp(environment.firebase),
+    AngularFireModule.initializeApp(environment.firebase, "angular-auth-firebase"),
     MatDialogModule,
     MatProgressSpinnerModule,
     AngularFireFunctionsModule,
-    AngularFireStorageModule
+    AngularFireStorageModule,
+    AngularFireAuthModule,
+    MatTableModule,
+    MatSortModule
   ],
   providers: [
     {
@@ -69,7 +82,9 @@ import {AngularFireStorageModule, BUCKET } from '@angular/fire/storage';
     },
     { provide: USE_EMULATOR, useValue: environment.production? undefined : ['localhost', 5001] },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true} },
-    { provide: BUCKET, useValue: 'h4tf-portal.appspot.com' }
+    { provide: BUCKET, useValue: 'h4tf-portal.appspot.com' },
+    { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
+    { provide: USE_AUTH_EMULATOR, useValue: environment.production ? undefined : ['localhost', 9099] },
   ],
   entryComponents: [
     DialogComponent

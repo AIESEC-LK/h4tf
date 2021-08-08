@@ -26,11 +26,12 @@ export class SignUpService {
   async uploadCV(cv: File): Promise<string> {
     const fileName = Date.now().toString() + "_" + cv.name;
     const ref = this.storage.ref(fileName);
-    const task = await ref.put(cv);
+    await ref.put(cv);
     return fileName;
   }
 
   async checkDuplicateEmail(email: string): Promise<Boolean> {
+    return false;
     let doc = await this.firestore.collection('participants').doc(email).get().toPromise();
     return doc.exists;
   }

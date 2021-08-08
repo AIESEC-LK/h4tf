@@ -2,7 +2,8 @@ rules_version = '2';
 service cloud.firestore {
   match /databases/{database}/documents {
     match /participants/{document} {
-      allow read, create: if true;
+      allow create: if true;
+      allow list: if request.auth.token.role == "admin" || request.auth.token.entity == resource.data.entity;
     }
   }
 }
