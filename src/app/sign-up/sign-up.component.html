@@ -144,7 +144,7 @@
 
           <div fxLayout="row" fxLayoutGap="20px">
             <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()"
-                    [disabled]="form.valid">
+                    [disabled]="!form.valid">
               SUBMIT
             </button>
           </div>

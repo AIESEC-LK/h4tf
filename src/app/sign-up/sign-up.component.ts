@@ -6,6 +6,7 @@ import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from "../dialog/dialog.component";
+import {ActivatedRoute} from "@angular/router";
 
 @Component({
   selector: 'app-sign-up',
@@ -37,7 +38,8 @@ export class SignUpComponent implements OnInit {
     interest: new FormControl(),
     consent: new FormControl(null,  [Validators.requiredTrue]),
     cv: new FormControl(),
-    cv_filename: new FormControl()
+    cv_filename: new FormControl(),
+    entity: new FormControl()
   });
 
   formData = {
@@ -45,10 +47,13 @@ export class SignUpComponent implements OnInit {
     cv_file: null as null | File
   }
 
-  constructor(private http: HttpClient, private signUpService: SignUpService, private dialog: MatDialog) {
+  constructor(private http: HttpClient, private signUpService: SignUpService, private dialog: MatDialog,
+              private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {
+    this.form.get("entity")?.setValue(this.route.snapshot.paramMap.get("entity"));
+
     this.signUpService.getUniversities().subscribe(data => {
       this.universities.raw = data;
     });
@@ -84,7 +89,7 @@ export class SignUpComponent implements OnInit {
   async submitForm() {
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
     try {
-      //if (!this.form.valid) throw "There was an error with your form";
+      if (!this.form.valid) throw "There was an error with your form";
       if (await this.signUpService.checkDuplicateEmail(this.form.get("email")?.value)) throw "Your email has already been used to sign up.";
       let fileName: string = "";
       if (this.formData.cv_file != null) fileName = await this.signUpService.uploadCV(<File>this.formData.cv_file);
@@ -98,7 +103,7 @@ export class SignUpComponent implements OnInit {
           message: "One of our representatives will be in touch with you shortly"
         }
       }).afterClosed().subscribe(() => {
-        //window.location.href = "https://aiesec.lk/h4tf"
+        window.location.href = "https://aiesec.lk/h4tf"
       })
     } catch (err){
         this.dialog.open(DialogComponent, {
