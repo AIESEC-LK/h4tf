@@ -1,12 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {HttpClient} from "@angular/common/http";
 import {SignUpService} from "./sign-up.service";
-import {Observable} from "rxjs";
+import {Observable, ReplaySubject, Subject} from "rxjs";
 import {FormControl, FormGroup, Validators} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from "../dialog/dialog.component";
 import {ActivatedRoute} from "@angular/router";
+
+interface UNIVERSITY {
+  entity: string,
+  university: string
+}
 
 @Component({
   selector: 'app-sign-up',
@@ -15,10 +20,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class SignUpComponent implements OnInit {
 
-  universities = {
-    raw: [] as string[],
-    filtered: null as null | Observable<string[]>
-  };
+  universities: UNIVERSITY[] = [];
   countries = {
     raw: [] as string[],
     filtered: null as null | Observable<string[]>
@@ -33,14 +35,20 @@ export class SignUpComponent implements OnInit {
       Validators.pattern('(^(0\\s*)([0-9]\\s*){8}[0-9]$)|^\\+([0-9]\\s*)*$')]),
     from: new FormControl(null, [Validators.required]),
     university: new FormControl(),
+    universityFilter: new FormControl(),
     country: new FormControl(),
-    year: new FormControl(),
-    interest: new FormControl(),
+    year: new FormControl(null, [Validators.required]),
+    interest: new FormControl(null, [Validators.required]),
     consent: new FormControl(null,  [Validators.requiredTrue]),
-    cv: new FormControl(),
+    cv: new FormControl(null, [Validators.required]),
     cv_filename: new FormControl(),
     entity: new FormControl()
   });
+
+  public filteredUniversities: UNIVERSITY[] = [];
+
+  // @ts-ignore
+  @ViewChild('universitySearch') inputEl: ElementRef;
 
   formData = {
     cv: "",
@@ -52,10 +60,13 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.form.get("entity")?.setValue(this.route.snapshot.paramMap.get("entity"));
+    if (this.route.snapshot.queryParams['entity']) {
+      this.form.get("entity")?.setValue(this.route.snapshot.paramMap.get("entity")?.toUpperCase());
+    }
 
     this.signUpService.getUniversities().subscribe(data => {
-      this.universities.raw = data;
+      this.universities = data;
+      this.filteredUniversities = data;
     });
 
     this.signUpService.getCountries().subscribe(data => {
@@ -63,18 +74,12 @@ export class SignUpComponent implements OnInit {
     });
 
     // @ts-ignore
-    this.universities.filtered = this.form.get("university").valueChanges
-      .pipe(
-        startWith(''),
-        map((value: any) => this._filter(value, this.universities.raw))
-      );
-
-    // @ts-ignore
     this.countries.filtered = this.form.get("country").valueChanges
       .pipe(
         startWith(''),
         map((value: any) => this._filter(value, this.countries.raw))
       );
+
   }
 
   // @ts-ignore
@@ -86,14 +91,42 @@ export class SignUpComponent implements OnInit {
     }
   }
 
+  // @ts-ignore
+  doUniversityFilter(event) {
+    this.filteredUniversities = this.search(event.target.value);
+  }
+
+  search(value: string) {
+    let filter = value.toLowerCase();
+    return this.universities.filter(option => option.university.toLowerCase().startsWith(filter));
+  }
+
+
+  isFormValid(): boolean {
+    if (!this.form.valid) return false;
+    if (this.form.get("from")?.value == "local" &&  this.form.get("university")?.value != null &&
+      this.form.get("university")?.value != "") return true;
+    if (this.form.get("from")?.value == "international" &&  this.form.get("country")?.value != null &&
+      this.form.get("country")?.value != "") return true;
+    return false;
+  }
+
   async submitForm() {
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
     try {
       if (!this.form.valid) throw "There was an error with your form";
       if (await this.signUpService.checkDuplicateEmail(this.form.get("email")?.value)) throw "Your email has already been used to sign up.";
+
+      if (this.form.get("entity")?.value == null) {
+        this.universities.forEach((university) => {
+          if (university.university == this.form.get("university")?.value) this.form.get("entity")?.setValue(university.entity);
+        })
+      }
+
       let fileName: string = "";
       if (this.formData.cv_file != null) fileName = await this.signUpService.uploadCV(<File>this.formData.cv_file);
       this.form.get("cv_filename")?.setValue(fileName);
+
       await this.signUpService.submitForm(this.form.value);
 
       this.dialog.open(DialogComponent, {

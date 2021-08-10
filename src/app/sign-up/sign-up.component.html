@@ -1,10 +1,12 @@
-<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; background-color:#EEEEEE"
+<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; background-color:#EEEEEE" [ngClass.gt-sm]="'vertical_padding'"
      fxLayout="row" fxLayoutAlign="stretch center">
 
   <div fxLayoutAlign="center center" fxLayout="row" fxFill>
     <mat-card fxLayout="row" fxLayout.lt-sm="column" id="box" fxFlex="80" fxFlex.lt-md="100">
 
-      <div fxFlex="60" id="cover" fxLayoutAlign="center center"></div>
+      <div fxFlex="60" id="cover" fxLayoutAlign="center end" [fxHide.lt-sm]="true">
+        <img src="assets/images/powered-by-White-Black.png" width="200px" style="margin-bottom:50px;"/>
+      </div>
       <div id="cover-sm" fxLayoutAlign="center center"></div>
 
       <div fxFlex="40" id="form" fxLayout="column">
@@ -46,7 +48,7 @@
 
           <div fxLayout="column" fxLayoutGap="10px">
 
-            <mat-label class="label">Where are you from?</mat-label>
+            <mat-label class="label">Where are you from? *</mat-label>
             <mat-radio-group aria-label="Select an option" fxLayoutGap="50px" fxLayout.lt-sm="column"
                              fxLayoutGap.lt-sm="20px" formControlName="from">
               <mat-radio-button value="local">Sri Lanka</mat-radio-button>
@@ -57,18 +59,15 @@
 
           <div fxLayout="column" fxLayoutGap="20px" *ngIf="form.get('from')!.value === 'local'">
 
-            <mat-form-field fxFlex="100">
+            <mat-form-field>
               <mat-label>University or Institute</mat-label>
-              <input type="text"
-                     aria-label="Number"
-                     matInput
-                     formControlName="university"
-                     [matAutocomplete]="auto"/>
-              <mat-autocomplete #auto="matAutocomplete">
-                <mat-option *ngFor="let university of universities.filtered | async" [value]="university">
-                  {{university}}
+              <mat-select formControlName="university" required>
+                <input matInput formControlName="universityFilter" (keyup)="doUniversityFilter($event)"
+                       appearance="fill" placeholder="Search" class="search"/>
+                <mat-option *ngFor="let university of filteredUniversities" [value]="university.university">
+                  {{university.university}}
                 </mat-option>
-              </mat-autocomplete>
+              </mat-select>
             </mat-form-field>
 
           </div>
@@ -95,7 +94,7 @@
 
             <mat-form-field fxFlex="100">
               <mat-label>Field(s) of Interest</mat-label>
-              <input matInput formControlName="interest">
+              <input matInput formControlName="interest" required>
             </mat-form-field>
 
           </div>
@@ -104,7 +103,7 @@
 
             <mat-form-field>
               <mat-label>Year of Study</mat-label>
-              <mat-select formControlName="year">
+              <mat-select formControlName="year" required>
                 <mat-option *ngFor="let year of years" [value]="year">
                   {{year}}
                 </mat-option>
@@ -116,10 +115,10 @@
           <div fxLayout="row" fxLayoutGap="0px">
 
             <input hidden type="file" accept=".pdf" class="file-input" formControlName="cv"
-                   (change)="onFileSelected($event)" #fileUpload>
+                   (change)="onFileSelected($event)" #fileUpload required>
 
             <div class="file-upload" fxLayout="column" fxLayoutGap="10px">
-              <mat-label class="label">Upload your curriculum vitae (PDF)</mat-label>
+              <mat-label class="label">Upload your curriculum vitae (PDF) *</mat-label>
 
               <div fxLayout="row" fxLayoutAlign="start center">
                 <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
@@ -144,7 +143,7 @@
 
           <div fxLayout="row" fxLayoutGap="20px">
             <button class="submit_button" mat-raised-button color="primary" (click)="submitForm()"
-                    [disabled]="!form.valid">
+                    [disabled]="!isFormValid()">
               SUBMIT
             </button>
           </div>

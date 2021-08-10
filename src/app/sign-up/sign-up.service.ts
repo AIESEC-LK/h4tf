@@ -4,6 +4,11 @@ import {Observable} from "rxjs";
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
 
+interface UNIVERSITY {
+  entity: string,
+  university: string
+}
+
 @Injectable({
   providedIn: 'root'
 })
@@ -11,8 +16,8 @@ export class SignUpService {
 
   constructor(private http: HttpClient, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
 
-  getUniversities(): Observable<string[]> {
-   return this.http.get<string[]>("assets/data/universities.json");
+  getUniversities(): Observable<UNIVERSITY[]> {
+   return this.http.get<UNIVERSITY[]>("assets/data/universities.json");
   }
 
   getCountries(): Observable<string[]> {

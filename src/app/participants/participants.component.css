@@ -30,3 +30,11 @@
 ::ng-deep table.mat-table {
   border-radius:5px;
 }
+
+mat-icon {
+  color:#019875;
+}
+
+.cv_icon {
+  font-weight:lighter;
+}

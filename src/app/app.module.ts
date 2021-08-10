@@ -34,7 +34,7 @@ import { USE_EMULATOR as USE_AUTH_EMULATOR } from '@angular/fire/auth';
 import { ParticipantsComponent } from './participants/participants.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
-
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 @NgModule({
   declarations: [
@@ -70,7 +70,8 @@ import {MatSortModule} from "@angular/material/sort";
     AngularFireStorageModule,
     AngularFireAuthModule,
     MatTableModule,
-    MatSortModule
+    MatSortModule,
+    NgxMatSelectSearchModule
   ],
   providers: [
     {
