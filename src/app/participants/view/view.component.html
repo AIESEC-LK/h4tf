@@ -1,0 +1,32 @@
+<div fxLayoutAlign="center center">
+  <mat-spinner *ngIf="!participant"></mat-spinner>
+
+  <div *ngIf="participant"  fxFlex.gt-sm="50" [class.mat-elevation-z2]="true">
+    <div fxLayout="row" class="profile_header" fxLayoutAlign="space-between center">
+      <span>{{participant?.first_name}} {{participant?.last_name}}</span>
+      <div class="status"
+           [ngClass]="{
+                'contacted': participant.status === 'contacted',
+                'rejected': participant.status === 'rejected',
+                'applied': participant.status === 'applied',
+                'accepted': participant.status === 'accepted',
+                'approved': participant.status === 'approved',
+                'realized': participant.status === 'realized',
+                'finished': participant.status === 'finished',
+                'completed': participant.status === 'completed',
+                'eld': participant.status === 'ELD convert'
+              }">
+        {{participant?.status}}
+      </div>
+    </div>
+
+    <div class="profile_content">
+      <div fxLayout="row" fxLayoutAlign="space-around center">
+        <div *ngFor="let nextStage of getNextStages()">
+          <button mat-raised-button color="accent" (click)="changeStatus(nextStage)"> Change status to {{nextStage}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>

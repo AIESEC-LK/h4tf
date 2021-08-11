@@ -1,12 +1,12 @@
 {
   "projects": {
-    "default": "h4tf-portal"
+    "default": "h4tf-portal2"
   },
   "targets": {
-    "h4tf-portal": {
+    "h4tf-portal2": {
       "hosting": {
         "h4tf": [
-          "h4tf-portal"
+          "h4tf-portal2"
         ]
       }
     }

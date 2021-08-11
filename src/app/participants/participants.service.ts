@@ -1,6 +1,9 @@
 import { Injectable } from '@angular/core';
 import {AuthService} from "../auth/auth.service";
 import {AngularFirestore} from "@angular/fire/firestore";
+import {Participant} from "../interfaces/participant";
+import {DialogComponent} from "../dialog/dialog.component";
+import {MatDialog} from "@angular/material/dialog";
 
 @Injectable({
   providedIn: 'root'
@@ -23,5 +26,18 @@ export class ParticipantsService {
       result.push(doc.data());
     })
     return result;
+  }
+
+  async getParticipant(email: string): Promise<Participant> {
+    await this.authService.forceLogin();
+    const participantDoc = await this.firestore.collection('participants').doc(email).ref.get();
+    return <Participant>participantDoc.data();
+  }
+
+  async changeStatus(email: string, status: string) {
+    await this.authService.forceLogin();
+    const participantDoc = await this.firestore.collection('participants').doc(email).update({
+      status: status
+    });
   }
 }

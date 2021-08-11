@@ -1,0 +1,63 @@
+.profile_header {
+  background-color:#019875;
+  padding:20px;
+  color:white;
+  vertical-align:middle;
+}
+
+.profile_content {
+  padding:20px;
+}
+
+.profile_header span {
+  font-weight:500;
+  font-size:20px;
+}
+
+.profile_header .status {
+  border-radius:5px;
+  background-color:white;
+  font-weight:500;
+  padding:10px;
+}
+
+.profile_header div {
+  color:black;
+}
+
+.contacted {
+  color: #6c5701;
+}
+
+.rejected {
+  color:#d64541;
+}
+
+.applied {
+  color:#013243;
+}
+
+.accepted {
+  color:#4daf7c;
+}
+
+.approved {
+  color:#019875;
+}
+
+.realized {
+  color:#3a539b;
+}
+
+.finished {
+  color:#663399;
+}
+
+.completed {
+  color:#4b77be;
+}
+
+.eld {
+  color:#f15a22;
+}
+
