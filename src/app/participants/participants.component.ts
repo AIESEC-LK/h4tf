@@ -14,7 +14,7 @@ export class ParticipantsComponent implements OnInit {
   participants: {}[] = [];
 
   //Table
-  columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv'];
+  columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage'];
 
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
@@ -30,8 +30,8 @@ export class ParticipantsComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  ngAfterViewInit() {
-    this.dataSource.sort = this.sort;
+  public openProfile(email: string) {
+    window.location.href = "/participants/"+email
   }
 
   public doFilter() {

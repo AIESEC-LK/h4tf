@@ -6,7 +6,6 @@
 ::ng-deep tr.mat-header-row {
   height: 56px;
   background-color:#019875;
-
 }
 
 ::ng-deep th.mat-header-cell {
@@ -21,6 +20,7 @@
 
 ::ng-deep tr.mat-row:hover {
   background-color:#F4F4F4;
+  cursor:pointer;
 }
 
 ::ng-deep .mat-sort-header-arrow {
@@ -37,4 +37,72 @@ mat-icon {
 
 .cv_icon {
   font-weight:lighter;
+}
+
+.stage {
+  background-color:#CCCCCC;
+  border-radius:3px;
+  padding:5px;
+  font-weight:500;
+  text-align:center;
+  width:100px;
+}
+
+.stage:hover{
+  cursor:pointer;
+}
+
+
+.contacted {
+  background-color:#f7ca18;
+  color:black;
+}
+
+.rejected {
+  background-color:#d64541;
+  color:white;
+}
+
+.applied {
+  background-color:#013243;
+  color:white;
+}
+
+.accepted {
+  background-color:#4daf7c;
+  color:black;
+}
+
+.approved {
+  background-color:#019875;
+  color:white;
+}
+
+.realized {
+  background-color:#3a539b;
+  color:white;
+}
+
+.finished {
+  background-color:#663399;
+  color:white;
+}
+
+.completed {
+  background-color:#4b77be;
+  color:white;
+}
+
+.eld {
+  background-color:#f15a22;
+  color:white;
+}
+
+
+table {
+  width: 100%;
+}
+
+::ng-deep mat-header-cell, mat-cell {
+  justify-content: center !important;
 }

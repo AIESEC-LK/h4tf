@@ -4,6 +4,8 @@ service cloud.firestore {
     match /participants/{document} {
       allow create: if true;
       allow list: if request.auth.token.role == "admin" || request.auth.token.entity == resource.data.entity;
+      allow read: if request.auth.token.role == "admin" || request.auth.token.entity == resource.data.entity;
+      allow update: if request.auth.token.role == "admin" || request.auth.token.entity == resource.data.entity;
     }
   }
 }

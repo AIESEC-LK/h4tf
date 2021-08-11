@@ -55,8 +55,7 @@ export class SignUpComponent implements OnInit {
     cv_file: null as null | File
   }
 
-  constructor(private http: HttpClient, private signUpService: SignUpService, private dialog: MatDialog,
-              private route: ActivatedRoute) {
+  constructor(private signUpService: SignUpService, private dialog: MatDialog, private route: ActivatedRoute) {
   }
 
   ngOnInit(): void {

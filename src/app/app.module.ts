@@ -35,6 +35,7 @@ import { ParticipantsComponent } from './participants/participants.component';
 import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ViewComponent } from './participants/view/view.component';
 
 @NgModule({
   declarations: [
@@ -42,7 +43,8 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     SignUpComponent,
     DialogComponent,
     LoginComponent,
-    ParticipantsComponent
+    ParticipantsComponent,
+    ViewComponent
   ],
   imports: [
     BrowserModule,
@@ -83,7 +85,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
     },
     { provide: USE_EMULATOR, useValue: environment.production? undefined : ['localhost', 5001] },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true} },
-    { provide: BUCKET, useValue: 'h4tf-portal.appspot.com' },
+    { provide: BUCKET, useValue: 'h4tf-portal2.appspot.com' },
     { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
     { provide: USE_AUTH_EMULATOR, useValue: environment.production ? undefined : ['localhost', 9099] },
   ],
