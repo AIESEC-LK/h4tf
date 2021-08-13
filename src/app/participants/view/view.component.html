@@ -21,9 +21,18 @@
     </div>
 
     <div class="profile_content">
-      <div fxLayout="row" fxLayoutAlign="space-around center">
+
+      <div>
+        <h2>Timeline</h2>
+        <div *ngFor="let stage of getStagesSoFar()" fxLayout="column" style="margin-bottom:10px;">
+          <span style="font-weight:500; color:#019875">{{stage}}</span>
+          <span>{{getTimestamp(stage)}}</span>
+        </div>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="end center" style="margin-top:50px;">
         <div *ngFor="let nextStage of getNextStages()">
-          <button mat-raised-button color="accent" (click)="changeStatus(nextStage)"> Change status to {{nextStage}}</button>
+          <button mat-button color="accent" (click)="changeStatus(nextStage)"> Change status to {{nextStage}}</button>
         </div>
       </div>
     </div>

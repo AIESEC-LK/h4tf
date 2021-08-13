@@ -43,6 +43,14 @@ export class ParticipantsComponent implements OnInit {
     console.log(url);
   }
 
+  getDisplayedColumns(): string[] {
+    const columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage'];
+    const columnsToDisplayMobile = ['first_name', 'stage'];
+    if (window.innerWidth < 600) return  columnsToDisplayMobile
+    return columnsToDisplay;
+  }
+
+
 
 
 }

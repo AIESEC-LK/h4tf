@@ -13,7 +13,20 @@ exports.onParticipantCreate = functions.firestore
   .document('participants/{email}')
   .onCreate(async (snap, context) => {
     const participantRef = db.collection('participants').doc(snap.id);
+    const timestamp = new Date().toISOString();
     await participantRef.set({
-      status: "signed up"
+      status: "signed up",
+      createdTimeStamp: timestamp
+    }, {merge: true});
+  });
+
+exports.onParticipantUpdate = functions.firestore
+  .document('participants/{email}')
+  .onUpdate(async (snap, context) => {
+    if (snap.before.data().lastModifiedTimestamp !== snap.after.data().lastModifiedTimestamp) return;
+    const participantRef = db.collection('participants').doc(snap.after.id);
+    const timestamp = new Date().toISOString();
+    await participantRef.set({
+      lastModifiedTimestamp: timestamp
     }, {merge: true});
   });

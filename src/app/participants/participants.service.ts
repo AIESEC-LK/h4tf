@@ -41,8 +41,13 @@ export class ParticipantsService {
 
   async changeStatus(email: string, status: string) {
     await this.authService.forceLogin();
-    await this.firestore.collection('participants').doc(email).update({
-      status: status
-    });
+    let changes = {};
+
+    // @ts-ignore
+    changes["status"] = status;
+    // @ts-ignore
+    changes[status + "Timestamp"] = new Date().toISOString();
+
+    await this.firestore.collection('participants').doc(email).update(changes);
   }
 }
