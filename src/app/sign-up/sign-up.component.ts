@@ -113,7 +113,7 @@ export class SignUpComponent implements OnInit {
   async submitForm() {
     let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
     try {
-      if (!this.form.valid) throw "There was an error with your form";
+      //if (!this.form.valid) throw "There was an error with your form";
       if (await this.signUpService.checkDuplicateEmail(this.form.get("email")?.value)) throw "Your email has already been used to sign up.";
 
       if (this.form.get("entity")?.value == null) {

@@ -13,8 +13,7 @@ exports.onParticipantCreate = functions.firestore
   .document('participants/{email}')
   .onCreate(async (snap, context) => {
     const participantRef = db.collection('participants').doc(snap.id);
-
     await participantRef.set({
-      stage: "signed up"
+      status: "signed up"
     }, {merge: true});
   });

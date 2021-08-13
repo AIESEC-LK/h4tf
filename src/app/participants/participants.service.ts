@@ -2,15 +2,14 @@ import { Injectable } from '@angular/core';
 import {AuthService} from "../auth/auth.service";
 import {AngularFirestore} from "@angular/fire/firestore";
 import {Participant} from "../interfaces/participant";
-import {DialogComponent} from "../dialog/dialog.component";
-import {MatDialog} from "@angular/material/dialog";
+import {AngularFireStorage} from "@angular/fire/storage";
 
 @Injectable({
   providedIn: 'root'
 })
 export class ParticipantsService {
 
-  constructor(private authService: AuthService, private firestore: AngularFirestore) { }
+  constructor(private authService: AuthService, private firestore: AngularFirestore,  private storage: AngularFireStorage) { }
 
   async getParticipants(): Promise<{}[]> {
     await this.authService.forceLogin();
@@ -34,9 +33,15 @@ export class ParticipantsService {
     return <Participant>participantDoc.data();
   }
 
+  async getCVDownloadUrl(filename: string): Promise<string> {
+    const url = await this.storage.ref(filename).getDownloadURL().toPromise();
+    console.log("CV URL", url);
+    return url;
+  }
+
   async changeStatus(email: string, status: string) {
     await this.authService.forceLogin();
-    const participantDoc = await this.firestore.collection('participants').doc(email).update({
+    await this.firestore.collection('participants').doc(email).update({
       status: status
     });
   }

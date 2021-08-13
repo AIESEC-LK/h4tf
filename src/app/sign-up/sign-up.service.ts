@@ -3,6 +3,7 @@ import {HttpClient} from "@angular/common/http";
 import {Observable} from "rxjs";
 import { AngularFirestore } from '@angular/fire/firestore';
 import { AngularFireStorage } from '@angular/fire/storage';
+import {environment} from "../../environments/environment";
 
 interface UNIVERSITY {
   entity: string,
@@ -14,7 +15,9 @@ interface UNIVERSITY {
 })
 export class SignUpService {
 
-  constructor(private http: HttpClient, private firestore: AngularFirestore, private storage: AngularFireStorage) { }
+  constructor(private http: HttpClient, private firestore: AngularFirestore, private storage: AngularFireStorage) {
+    if (!environment.production) this.storage.storage.useEmulator('localhost', 9199);
+  }
 
   getUniversities(): Observable<UNIVERSITY[]> {
    return this.http.get<UNIVERSITY[]>("assets/data/universities.json");
@@ -24,7 +27,7 @@ export class SignUpService {
     return this.http.get<string[]>("assets/data/countries.json");
   }
 
-  submitForm(formData: any): Promise<any> {
+  async submitForm(formData: any): Promise<any> {
     return this.firestore.collection('participants').doc(formData.email).set(formData);
   }
 
