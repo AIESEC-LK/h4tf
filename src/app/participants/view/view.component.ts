@@ -17,14 +17,17 @@ export class ViewComponent implements OnInit {
   public nextStages = {
     "signed-up": ["contacted", "rejected"],
     "rejected": ["signed up"],
-    "contacted": ["applied"],
-    "applied": ["accepted"],
+    "contacted": ["applied", "rejected"],
+    "applied": ["accepted", "rejected"],
     "accepted": ["approved"],
     "approved": ["realized"],
     "realized": ["finished"],
     "finished": ["completed"],
     "completed": ["ELD convert"]
-  }
+  };
+
+  public stagesFlow = ["signed up", "contacted", "applied", "accepted", "approved", "realized", "finished",
+    "completed", "ELD convert"]
 
   constructor(private route: ActivatedRoute, private participantsService: ParticipantsService,
               private dialog: MatDialog) { }
@@ -47,9 +50,30 @@ export class ViewComponent implements OnInit {
     try {
       await this.participantsService.changeStatus(this.participant!.email, nextStage);
       this.participant!.status = nextStage;
+      // @ts-ignore
+      this.participant[nextStage+'Timestamp'] = new Date().toISOString();
     } finally {
       loadingDialog.close();
     }
+  }
+
+  public getStagesSoFar() {
+    let stages = [];
+    for (let stage of this.stagesFlow) {
+      if (stage == this.participant?.status) break;
+      // @ts-ignore
+      if (this.participant[stage+'Timestamp'] !== undefined) stages.push(stage);
+    }
+    stages.push(this.participant?.status);
+    return stages;
+  }
+
+  public getTimestamp(stage: any): string {
+    let timestamp;
+    // @ts-ignore
+    timestamp = new Date(<string>this.participant[stage+'Timestamp']);
+    timestamp = timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
+    return timestamp
   }
 
 }

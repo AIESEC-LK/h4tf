@@ -13,9 +13,6 @@ export class AuthService {
   private role?: string;
   private entity?: string;
 
-  public isLoggedIn!: boolean;
-
-
   constructor(public auth: AngularFireAuth, private dialog: MatDialog) {}
 
   async forceLogin(): Promise<void> {
@@ -60,18 +57,12 @@ export class AuthService {
 
   public async isAuthenticated(): Promise<boolean> {
     const logged = await this.auth.authState.pipe(first()).toPromise();
-    if(logged !== null) {
-      this.isLoggedIn = true;
-      return true;
-    }
-    this.isLoggedIn = false;
-    return false;
+    return logged != null;
   }
 
   private async login(): Promise<boolean> {
     try {
       await this.auth.signInWithRedirect(new firebase.auth.GoogleAuthProvider());
-      location.reload();
       return true;
     } catch (e) {
       this.dialog.open(DialogComponent, {
