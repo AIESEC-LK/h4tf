@@ -1,8 +1,8 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
-import { AngularFirestore } from '@angular/fire/firestore';
 import {ParticipantsService} from "./participants.service";
 import {MatSort} from '@angular/material/sort';
 import {MatTableDataSource} from '@angular/material/table';
+import {AuthService} from "../auth/auth.service";
 
 @Component({
   selector: 'app-signups',
@@ -21,7 +21,7 @@ export class ParticipantsComponent implements OnInit {
   dataSource = new MatTableDataSource(this.participants);
   filter = "";
 
-  constructor(private participantsService: ParticipantsService) { }
+  constructor(public participantsService: ParticipantsService, public authService: AuthService) { }
 
   async ngOnInit() {
     this.participants = <{}[]>await this.participantsService.getParticipants();
@@ -36,6 +36,11 @@ export class ParticipantsComponent implements OnInit {
 
   public doFilter() {
     this.dataSource.filter = this.filter.trim().toLocaleLowerCase();
+  }
+
+  public async openCV(filename: string) {
+    const url = await this.participantsService.getCVDownloadUrl(filename);
+    console.log(url);
   }
 
 

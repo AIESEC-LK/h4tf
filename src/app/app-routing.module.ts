@@ -6,6 +6,7 @@ import {LoginComponent} from "./login/login.component";
 import {ViewComponent} from "./participants/view/view.component";
 
 const routes: Routes = [
+  { path: '', component: SignUpComponent },
   { path: 'sign-up', component: SignUpComponent },
   { path: 'sign-up/:entity', component: SignUpComponent },
   { path: 'participants/:email', component: ViewComponent },

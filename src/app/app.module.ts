@@ -85,7 +85,7 @@ import { ViewComponent } from './participants/view/view.component';
     },
     { provide: USE_EMULATOR, useValue: environment.production? undefined : ['localhost', 5001] },
     { provide: MAT_DIALOG_DEFAULT_OPTIONS, useValue: {hasBackdrop: true} },
-    { provide: BUCKET, useValue: 'h4tf-portal2.appspot.com' },
+    { provide: BUCKET, useValue:  environment.production? 'h4tf-portal2.appspot.com' : 'h4tf-portal2.appspot.com' },
     { provide: AUTH_SETTINGS, useValue: { appVerificationDisabledForTesting: true } },
     { provide: USE_AUTH_EMULATOR, useValue: environment.production ? undefined : ['localhost', 9099] },
   ],
