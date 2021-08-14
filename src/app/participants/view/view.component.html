@@ -30,6 +30,11 @@
         </div>
       </div>
 
+      <div *ngIf="participant.status == 'accepted'" fxLayout="column" style="margin-top:30px;">
+        <span style="font-weight:500; color:#019875">Payment Link</span>
+        <span>https://h4tf.aiesec.lk/pay/{{participant.email}}</span>
+      </div>
+
       <div fxLayout="row" fxLayoutAlign="end center" style="margin-top:50px;">
         <div *ngFor="let nextStage of getNextStages()">
           <button mat-button color="accent" (click)="changeStatus(nextStage)"> Change status to {{nextStage}}</button>

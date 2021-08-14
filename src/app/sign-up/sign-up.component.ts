@@ -59,7 +59,7 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.route.snapshot.queryParams['entity']) {
+        if (this.route.snapshot.queryParams['entity']) {
       this.form.get("entity")?.setValue(this.route.snapshot.paramMap.get("entity")?.toUpperCase());
     }
 

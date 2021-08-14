@@ -1,0 +1,69 @@
+<div style="position:absolute; top:0; left:0; min-height:100%; width:100%; background-color:#EEEEEE" [ngClass.gt-sm]="'vertical_padding'"
+     fxLayout="row" fxLayoutAlign="stretch center">
+
+  <div fxLayoutAlign="center center" fxLayout="row" fxFill>
+    <mat-card fxLayout="row" fxLayout.lt-sm="column" id="box" fxFlex="80" fxFlex.lt-md="100">
+
+      <div fxFlex="60" id="cover" fxLayoutAlign="center end" [fxHide.lt-sm]="true">
+      </div>
+      <div id="cover-sm" fxLayoutAlign="center center"></div>
+
+      <div fxFlex="40" id="form" fxLayout="column">
+        <mat-card-title>MAKE YOUR PAYMENT</mat-card-title>
+
+        <form #form2 action="https://webxpay.com/index.php?route=checkout/billing" method="POST">
+
+        <mat-card-content fxLayout="column" fxLayoutGap="15px" [formGroup]="form">
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="50">
+              <mat-label>First Name</mat-label>
+              <input matInput name="first_name" required>
+            </mat-form-field>
+
+            <mat-form-field fxFlex="50">
+              <mat-label>Last Name</mat-label>
+              <input matInput name="last_name" required>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Phone Number</mat-label>
+              <input matInput placeholder="07XXXXXXXX | +YY 7XXXXXXXX" type="tel" name="contact_number" required>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="0px">
+
+            <mat-form-field fxFlex="100">
+              <mat-label>Address</mat-label>
+              <input matInput name="address_line_one" required>
+            </mat-form-field>
+
+          </div>
+
+          <div fxLayout="row" fxLayoutGap="20px">
+            <input type="hidden" name="process_currency" value="LKR">
+            <input type="hidden" name="cms" value="PHP">
+            <input type="hidden" name="secret_key" value="9937e0dc-6b10-4632-bd5c-a662769af513">
+            <input type="hidden" name="payment" formControlName="paymentKey">
+            <input type="hidden" name="email" formControlName="email">
+            <input type="hidden" name="custom_fields" value="{{ custom_fields_b64 }}">
+
+            <button type="submit" class="submit_button" mat-raised-button color="primary" (click)="submitForm(form2)">
+              NEXT
+            </button>
+          </div>
+        </mat-card-content>
+        </form>
+      </div>
+
+    </mat-card>
+  </div>
+
+</div>
