@@ -4,6 +4,7 @@ import {SignUpComponent} from "./sign-up/sign-up.component";
 import {ParticipantsComponent} from "./participants/participants.component";
 import {LoginComponent} from "./login/login.component";
 import {ViewComponent} from "./participants/view/view.component";
+import {PaymentComponent} from "./payment/payment.component";
 
 const routes: Routes = [
   { path: '', component: SignUpComponent },
@@ -11,6 +12,7 @@ const routes: Routes = [
   { path: 'sign-up/:entity', component: SignUpComponent },
   { path: 'participants/:email', component: ViewComponent },
   { path: 'participants', component: ParticipantsComponent },
+  { path: 'pay/:email', component: PaymentComponent },
   { path: 'logout', component: LoginComponent }
 ];
 

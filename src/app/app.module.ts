@@ -36,6 +36,7 @@ import {MatTableModule} from "@angular/material/table";
 import {MatSortModule} from "@angular/material/sort";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ViewComponent } from './participants/view/view.component';
+import { PaymentComponent } from './payment/payment.component';
 
 @NgModule({
   declarations: [
@@ -44,7 +45,8 @@ import { ViewComponent } from './participants/view/view.component';
     DialogComponent,
     LoginComponent,
     ParticipantsComponent,
-    ViewComponent
+    ViewComponent,
+    PaymentComponent
   ],
   imports: [
     BrowserModule,
