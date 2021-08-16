@@ -3,6 +3,7 @@ const admin = require('firebase-admin');
 admin.initializeApp();
 const db = admin.firestore();
 const crypto = require("crypto");
+const sheets = require("./sheets");
 
 exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
     const userClaims = (await db.collection('users').doc(user.email).get()).data();
@@ -19,6 +20,7 @@ exports.onParticipantCreate = functions.firestore
       status: "signed up",
       createdTimeStamp: timestamp
     }, {merge: true});
+    await sheets.add((await participantRef.get()).data());
   });
 
 exports.onParticipantUpdate = functions.firestore
@@ -42,7 +44,7 @@ exports.getPaymentKey = functions.https.onCall(async (data, context) => {
     "lORCKYjLvbS58vOQJXRqadyQhCMOIvL+/sZmZ5PIUVJH/tmPmTgJBBNPro59U1KH\n" +
     "BJn9H5snnI07CwftgQIDAQAB\n" +
     "-----END PUBLIC KEY-----"
-  const raw_request = "h4tf_" + entity + "_" + data.email + "|2";
+  const raw_request = "h4tf_" + entity + "_" + data.email + "|5000";
   const encryptedData = crypto.publicEncrypt(
     public_key,
     // We convert the data string to a buffer using `Buffer.from`
