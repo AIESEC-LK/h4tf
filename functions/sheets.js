@@ -10,6 +10,11 @@ module.exports = {
       scopes: ['https://www.googleapis.com/auth/spreadsheets']
     });
 
+    let uni = data.country;
+    if (data.from === "local") {
+      uni = data.university;
+    }
+
     await sheets.spreadsheets.values.append({
       spreadsheetId: "1RjtWxufpkd6wfnvX9IvoMBfu7LlO8H-8XJiHCH2ceCo",
       range: 'SUs',
@@ -19,7 +24,7 @@ module.exports = {
         values: [
           [
             new Date().toISOString(), data.first_name + " " + data.last_name, data.email, data.phone, data.entity,
-            data.from, data.university + data.country, data.year, data.interest
+            data.from, uni, data.year, data.interest
           ]
         ],
       },

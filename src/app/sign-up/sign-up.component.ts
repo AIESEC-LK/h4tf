@@ -59,8 +59,8 @@ export class SignUpComponent implements OnInit {
   }
 
   ngOnInit(): void {
-        if (this.route.snapshot.queryParams['entity']) {
-      this.form.get("entity")?.setValue(this.route.snapshot.paramMap.get("entity")?.toUpperCase());
+    if (<string>this.route.snapshot.paramMap.get("entity")) {
+      this.form.get("entity")?.setValue(<string>this.route.snapshot.paramMap.get("entity"));
     }
 
     this.signUpService.getUniversities().subscribe(data => {
@@ -97,7 +97,7 @@ export class SignUpComponent implements OnInit {
 
   search(value: string) {
     let filter = value.toLowerCase();
-    return this.universities.filter(option => option.university.toLowerCase().startsWith(filter));
+    return this.universities.filter(option => option.university.toLowerCase().includes(filter));
   }
 
 
