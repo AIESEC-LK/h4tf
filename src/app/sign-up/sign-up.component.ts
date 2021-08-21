@@ -40,7 +40,7 @@ export class SignUpComponent implements OnInit {
     year: new FormControl(null, [Validators.required]),
     interest: new FormControl(null, [Validators.required]),
     consent: new FormControl(null,  [Validators.requiredTrue]),
-    cv: new FormControl(null, [Validators.required]),
+    cv: new FormControl(),
     cv_filename: new FormControl(),
     entity: new FormControl()
   });

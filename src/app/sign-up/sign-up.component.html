@@ -115,10 +115,10 @@
           <div fxLayout="row" fxLayoutGap="0px">
 
             <input hidden type="file" accept=".pdf" class="file-input" formControlName="cv"
-                   (change)="onFileSelected($event)" #fileUpload required>
+                   (change)="onFileSelected($event)" #fileUpload>
 
             <div class="file-upload" fxLayout="column" fxLayoutGap="10px">
-              <mat-label class="label">Upload your curriculum vitae (PDF) *</mat-label>
+              <mat-label class="label">Upload your curriculum vitae (PDF)</mat-label>
 
               <div fxLayout="row" fxLayoutAlign="start center">
                 <button mat-mini-fab color="primary" class="upload-btn" (click)="fileUpload.click()">
