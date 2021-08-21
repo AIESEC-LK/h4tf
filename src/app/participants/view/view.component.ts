@@ -72,6 +72,10 @@ export class ViewComponent implements OnInit {
     let timestamp;
     // @ts-ignore
     timestamp = new Date(<string>this.participant[stage+'Timestamp']);
+    if (stage == "signed up") {
+      // @ts-ignore
+      timestamp = new Date(<string>this.participant['createdTimeStamp']);
+    }
     timestamp = timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
     return timestamp
   }
