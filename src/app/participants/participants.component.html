@@ -55,7 +55,7 @@
     <ng-container matColumnDef="cv" [fxHide.lt-sm]="true">
       <th mat-header-cell *matHeaderCellDef> CV </th>
       <td mat-cell *matCellDef="let participant">
-        <a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal2.appspot.com/o/{{ participant.cv_filename }}?alt=media">
+        <a *ngIf="participant.cv" target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal2.appspot.com/o/{{ participant.cv_filename }}?alt=media">
           <mat-icon class="cv_icon" aria-hidden="false" aria-label="Example home icon">file_present</mat-icon>
         </a>
       </td>
