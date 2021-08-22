@@ -1,17 +1,22 @@
-<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'">
+<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'" fxLayoutGap="20px;">
 
   <div *ngIf="participants.length == 0" fxLayoutAlign="center center">
     <mat-spinner></mat-spinner>
   </div>
 
-  <div fxLayout fxLayoutAlign="end end" *ngIf="participants.length != 0">
+  <div fxLayout fxLayoutAlign="space-between end" *ngIf="participants.length != 0" fxLayoutGap="20px">
+
+    <button mat-button (click)="exporter.exportTable('csv', {fileName: 'participants'})">Export</button>
+
     <mat-form-field>
       <input matInput type="text" (keyup)="doFilter()" placeholder="Filter" [(ngModel)]="filter">
     </mat-form-field>
   </div>
 
 
-  <table mat-table matSort [dataSource]="dataSource" [hidden]="participants.length == 0" class="mat-elevation-z1">
+  <table mat-table matSort [dataSource]="dataSource" [hidden]="participants.length == 0"
+         matTableExporter #exporter="matTableExporter"
+         class="mat-elevation-z1">
 
     <ng-container matColumnDef="first_name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>

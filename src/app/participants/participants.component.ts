@@ -21,13 +21,17 @@ export class ParticipantsComponent implements OnInit {
   dataSource = new MatTableDataSource(this.participants);
   filter = "";
 
-  constructor(public participantsService: ParticipantsService, public authService: AuthService) { }
+  renderedData: any;
+
+  constructor(public participantsService: ParticipantsService, public authService: AuthService) {
+  }
 
   async ngOnInit() {
     this.participants = <{}[]>await this.participantsService.getParticipants();
     console.log("Participants: ", this.participants);
     this.dataSource = new MatTableDataSource<{}>(this.participants);
     this.dataSource.sort = this.sort;
+    this.dataSource.connect().subscribe(d => this.renderedData = d);
   }
 
   public openProfile(email: string) {
@@ -50,8 +54,5 @@ export class ParticipantsComponent implements OnInit {
     if (this.authService.getRole() == "admin") columnsToDisplay.push('entity');
     return columnsToDisplay;
   }
-
-
-
 
 }
