@@ -1,6 +1,7 @@
 .pad_table {
   margin-left:100px;
   margin-right:100px;
+  margin-bottom:100px;
 }
 
 ::ng-deep tr.mat-header-row {
@@ -9,7 +10,7 @@
 }
 
 ::ng-deep th.mat-header-cell {
-  text-align: left;
+  text-align:left;
   color:white;
   font-weight:500;
 }
@@ -21,6 +22,10 @@
 ::ng-deep tr.mat-row:hover {
   background-color:#F4F4F4;
   cursor:pointer;
+}
+
+::ng-deep .mat-sort-header-content {
+  padding:15px;
 }
 
 ::ng-deep .mat-sort-header-arrow {
@@ -42,10 +47,10 @@ mat-icon {
 .stage {
   background-color:#CCCCCC;
   border-radius:3px;
-  padding-top:3px;
-  padding-bottom:3px;
+  padding:5px;
   font-weight:500;
   text-align:center;
+  width:500px;
 }
 
 .stage:hover{
@@ -106,3 +111,32 @@ table {
 ::ng-deep mat-header-cell, mat-cell {
   justify-content: center !important;
 }
+.mat-row {
+  height: auto;
+}
+
+.mat-cell {
+  padding: 5px 15px;
+}
+
+.mat-column-first_name {
+  max-width: 150px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-email {
+  max-width: 150px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-institute {
+  max-width: 100px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
