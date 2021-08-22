@@ -16,8 +16,8 @@ export class ParticipantsService {
     let participantsDoc;
     if (["editor", "viewer"].includes(this.authService.getRole())) {
       participantsDoc = await this.firestore.firestore.collection('participants')
-        .where('entity', '==', this.authService.getEntity());
-    } else participantsDoc = await this.firestore.firestore.collection('participants')
+        .where('entity', '==', this.authService.getEntity()).orderBy("lastModifiedTimestamp", 'desc');
+    } else participantsDoc = await this.firestore.firestore.collection('participants').orderBy("lastModifiedTimestamp", 'desc')
 
     let result: {}[] = []
     const querySnapshot = await participantsDoc.get();

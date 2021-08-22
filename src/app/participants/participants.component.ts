@@ -44,9 +44,10 @@ export class ParticipantsComponent implements OnInit {
   }
 
   getDisplayedColumns(): string[] {
-    const columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage'];
+    let columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage'];
     const columnsToDisplayMobile = ['first_name', 'stage'];
-    if (window.innerWidth < 600) return  columnsToDisplayMobile
+    if (window.innerWidth < 600) columnsToDisplay = columnsToDisplayMobile
+    if (this.authService.getRole() == "admin") columnsToDisplay.push('entity');
     return columnsToDisplay;
   }
 
