@@ -1,17 +1,22 @@
-<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'">
+<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'" fxLayoutGap="20px;">
 
   <div *ngIf="participants.length == 0" fxLayoutAlign="center center">
     <mat-spinner></mat-spinner>
   </div>
 
-  <div fxLayout fxLayoutAlign="end end" *ngIf="participants.length != 0">
+  <div fxLayout fxLayoutAlign="space-between end" *ngIf="participants.length != 0" fxLayoutGap="20px">
+
+    <button mat-button (click)="exporter.exportTable('csv', {fileName: 'participants'})">Export</button>
+
     <mat-form-field>
       <input matInput type="text" (keyup)="doFilter()" placeholder="Filter" [(ngModel)]="filter">
     </mat-form-field>
   </div>
 
 
-  <table mat-table matSort [dataSource]="dataSource" [hidden]="participants.length == 0" class="mat-elevation-z1">
+  <table mat-table matSort [dataSource]="dataSource" [hidden]="participants.length == 0"
+         matTableExporter #exporter="matTableExporter"
+         class="mat-elevation-z1">
 
     <ng-container matColumnDef="first_name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
@@ -31,12 +36,12 @@
     </ng-container>
 
     <ng-container matColumnDef="entity" [fxHide.lt-sm]="true">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Entity </th>
-      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)" style="padding-left:10px;"> {{participant.entity}} </td>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{participant.entity}} </td>
     </ng-container>
 
     <ng-container matColumnDef="from" [fxHide.lt-sm]="true">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header> Local/International </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> From </th>
       <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{participant.from}} </td>
     </ng-container>
 
@@ -58,7 +63,7 @@
     </ng-container>
 
     <ng-container matColumnDef="cv" [fxHide.lt-sm]="true">
-      <th mat-header-cell *matHeaderCellDef> CV </th>
+      <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let participant">
         <a *ngIf="participant.cv" target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal2.appspot.com/o/{{ participant.cv_filename }}?alt=media">
           <mat-icon class="cv_icon" aria-hidden="false" aria-label="Example home icon">file_present</mat-icon>
@@ -67,9 +72,9 @@
     </ng-container>
 
     <ng-container matColumnDef="stage">
-      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;"> Stage </th>
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;"></th>
       <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)">
-        <div style="width:100%;" class="stage"
+        <span style="width:100%;" class="stage"
               [ngClass]="{
                 'contacted': participant.status === 'contacted',
                 'rejected': participant.status === 'rejected',
@@ -82,7 +87,7 @@
                 'eld': participant.status === 'ELD convert'
               }">
           {{ participant.status }}
-        </div>
+        </span>
       </td>
     </ng-container>
 
