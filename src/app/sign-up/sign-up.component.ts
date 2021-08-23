@@ -142,7 +142,7 @@ export class SignUpComponent implements OnInit {
           data: {
             type: "error",
             title: "ERROR",
-            message: err
+            message: "This email has already been used to sign up."
           }
         })
     } finally {

@@ -37,6 +37,8 @@ import {MatSortModule} from "@angular/material/sort";
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ViewComponent } from './participants/view/view.component';
 import { PaymentComponent } from './payment/payment.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
+import {MatTab} from "@angular/material/tabs";
 
 @NgModule({
   declarations: [
@@ -75,7 +77,8 @@ import { PaymentComponent } from './payment/payment.component';
     AngularFireAuthModule,
     MatTableModule,
     MatSortModule,
-    NgxMatSelectSearchModule
+    NgxMatSelectSearchModule,
+    MatTableExporterModule
   ],
   providers: [
     {
