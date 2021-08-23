@@ -40,7 +40,7 @@ export class SignUpComponent implements OnInit {
     year: new FormControl(null, [Validators.required]),
     interest: new FormControl(null, [Validators.required]),
     consent: new FormControl(null,  [Validators.requiredTrue]),
-    cv: new FormControl(),
+    cv: new FormControl(null,  [Validators.required]),
     cv_filename: new FormControl(),
     entity: new FormControl()
   });
@@ -142,7 +142,7 @@ export class SignUpComponent implements OnInit {
           data: {
             type: "error",
             title: "ERROR",
-            message: err
+            message: "This email has already been used to sign up."
           }
         })
     } finally {
