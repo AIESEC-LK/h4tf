@@ -10,8 +10,9 @@ import {first} from "rxjs/operators";
 })
 export class AuthService {
 
-  private role?: string;
+  private role = "unset";
   private entity?: string;
+  private email?: string;
 
   constructor(public auth: AngularFireAuth, private dialog: MatDialog) {}
 
@@ -32,10 +33,17 @@ export class AuthService {
   }
 
   async getUser(): Promise<firebase.User> {
-    const user = <firebase.User> await this.auth.authState.pipe(first()).toPromise();
-    const tokenResult = await user.getIdTokenResult();
+    const authState = await this.auth.authState.pipe(first());
+    const user = <firebase.User> await authState.toPromise();
+    const tokenResult = await user.getIdTokenResult(true);
     this.role = tokenResult.claims['role'];
     this.entity = tokenResult.claims['entity'];
+    this.email = tokenResult.claims['email'];
+    console.log("Token Result Claims:", tokenResult.claims);
+    if (this.role == undefined) {
+      await new Promise(r => setTimeout(r, 5000));
+      location.reload();
+    }
     return user;
   }
 
@@ -78,5 +86,6 @@ export class AuthService {
 
   getRole(): string { return <string>this.role;}
   getEntity(): string { return <string>this.entity;}
+  getEmail(): string { return <string>this.email;}
 
 }

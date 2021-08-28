@@ -1,4 +1,4 @@
-<div fxLayoutAlign="center center">
+<div fxLayoutAlign="center center" style="margin-bottom:50px;">
   <mat-spinner *ngIf="!participant"></mat-spinner>
 
   <div *ngIf="participant"  fxFlex.gt-sm="50" [class.mat-elevation-z2]="true">
@@ -20,7 +20,56 @@
       </div>
     </div>
 
-    <div class="profile_content">
+    <div class="profile_content" fxLayoutGap="20px" fxLayout="column">
+
+      <h2>Basic Information</h2>
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Name</span>
+        <span>{{participant.first_name}} {{participant.last_name}}</span>
+      </div>
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Email Address</span>
+        <span>{{participant.email}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Phone Number</span>
+        <span>{{participant.phone}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.country != null">
+        <span style="font-weight:500; color:#019875">Country</span>
+        <span>{{participant.country}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.university != null">
+        <span style="font-weight:500; color:#019875">University/Institute</span>
+        <span>{{participant.university}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Year of Study</span>
+        <span>{{participant.year}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Interests</span>
+        <span>{{participant.interest}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Assigned Entity</span>
+        <span>{{participant.entity}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.cv_filename != null">
+        <span style="font-weight:500; color:#019875">CV</span>
+        <span><a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal2.appspot.com/o/{{ participant.cv_filename }}?alt=media">
+          <mat-icon class="cv_icon" aria-hidden="false" aria-label="Example home icon">file_present</mat-icon>
+        </a></span>
+      </div>
+
+      <br>
 
       <div>
         <h2>Timeline</h2>

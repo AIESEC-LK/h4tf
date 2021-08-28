@@ -13,6 +13,7 @@ export class ParticipantsService {
 
   async getParticipants(): Promise<{}[]> {
     await this.authService.forceLogin();
+
     let participantsDoc;
     if (["editor", "viewer"].includes(this.authService.getRole())) {
       participantsDoc = await this.firestore.firestore.collection('participants')

@@ -7,6 +7,7 @@ const sheets = require("./sheets");
 
 exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
     const userClaims = (await db.collection('users').doc(user.email).get()).data();
+    console.log(user.email, user.uid, userClaims);
     await admin.auth().setCustomUserClaims(user.uid, userClaims);
     console.log((await admin.auth().getUser(user.uid)).customClaims);
 });
