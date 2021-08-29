@@ -4,9 +4,19 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div fxLayout fxLayoutAlign="space-between end" *ngIf="participants.length != 0" fxLayoutGap="20px">
+  <div fxLayout fxLayoutAlign="space-between center" *ngIf="participants.length != 0" fxLayoutGap="20px" class="control">
 
     <button mat-button (click)="exporter.exportTable('csv', {fileName: 'participants'})">Export</button>
+
+    <div fxFlex="100"></div>
+
+    <mat-form-field>
+      <mat-label>Columns</mat-label>
+      <mat-select multiple [(ngModel)]="selectedColumns">
+        <mat-option *ngFor="let column of columns" [value]="column">{{column}}</mat-option>
+      </mat-select>
+    </mat-form-field>
+
 
     <mat-form-field>
       <input matInput type="text" (keyup)="doFilter()" placeholder="Filter" [(ngModel)]="filter">
@@ -18,7 +28,7 @@
          matTableExporter #exporter="matTableExporter"
          class="mat-elevation-z1">
 
-    <ng-container matColumnDef="first_name">
+    <ng-container matColumnDef="name">
       <th mat-header-cell *matHeaderCellDef mat-sort-header> Name </th>
       <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)">
         {{participant.first_name}} {{participant.last_name}}
@@ -71,6 +81,57 @@
       </td>
     </ng-container>
 
+    <ng-container matColumnDef="signed-up">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed Up </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.createdTimeStamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contacted">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacted </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.contactedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rejected">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rejected </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.rejectedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="applied">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Applied </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.appliedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accepted">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Accepted </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.acceptedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="approved">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Approved </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.approvedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="realized">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Realized </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.realizedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="finished">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Finished </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.finishedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="completed">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Completed </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant.completedTimestamp) }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="ELD convert">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> ELD Convert </th>
+      <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)"> {{ participantsService.getTimestamp(participant['ELD convertTimestamp']) }} </td>
+    </ng-container>
+
+
     <ng-container matColumnDef="stage">
       <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;"></th>
       <td mat-cell *matCellDef="let participant" (click)="openProfile(participant.email)">
@@ -91,8 +152,8 @@
       </td>
     </ng-container>
 
-    <tr mat-header-row *matHeaderRowDef="getDisplayedColumns()"></tr>
-    <tr mat-row *matRowDef="let myRowData; columns: getDisplayedColumns()"></tr>
+    <tr mat-header-row *matHeaderRowDef="selectedColumns"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns:selectedColumns"></tr>
 
   </table>
 

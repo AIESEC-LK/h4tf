@@ -58,13 +58,13 @@ export class ViewComponent implements OnInit {
   }
 
   public getStagesSoFar() {
-    let stages = [];
+    let stages = ["signed up"];
     for (let stage of this.stagesFlow) {
       if (stage == this.participant?.status) break;
       // @ts-ignore
       if (this.participant[stage+'Timestamp'] !== undefined) stages.push(stage);
     }
-    stages.push(this.participant?.status);
+    stages.push(<string>this.participant?.status);
     return stages;
   }
 
@@ -77,7 +77,7 @@ export class ViewComponent implements OnInit {
       timestamp = new Date(<string>this.participant['createdTimeStamp']);
     }
     timestamp = timestamp.toLocaleDateString() + " " + timestamp.toLocaleTimeString();
-    return timestamp
+    return this.participantsService.getTimestamp(timestamp);
   }
 
 }

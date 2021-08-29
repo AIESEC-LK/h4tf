@@ -9,5 +9,6 @@ export interface Participant {
   interest: string,
   entity: string,
   year: string,
-  cv_filename: string
+  cv_filename: string,
+  createdTimestamp: string
 }

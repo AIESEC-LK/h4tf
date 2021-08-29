@@ -140,3 +140,15 @@ table {
   text-overflow: ellipsis;
 }
 
+.control {
+  margin-bottom:20px;
+  padding:10px;
+  padding-bottom:0px;
+  border-color:#019875;
+  border-bottom-style:dashed;
+  border-width:1px;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1em;
+}
