@@ -15,8 +15,9 @@ export class ParticipantsComponent implements OnInit {
 
   participants: {}[] = [];
 
-  //Table
-  columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage'];
+  columns = ['name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage', 'signed-up',
+    'contacted', 'rejected', 'applied', 'accepted', 'approved', 'realized', 'finished', 'completed', 'ELD convert'];
+  selectedColumns = this.columns;
 
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
@@ -35,6 +36,7 @@ export class ParticipantsComponent implements OnInit {
       this.dataSource = new MatTableDataSource<{}>(this.participants);
       this.dataSource.sort = this.sort;
       this.dataSource.connect().subscribe(d => this.renderedData = d);
+      this.getDisplayedColumns();
     } catch (e) {
         this.dialog.open(DialogComponent, {
           data: {
@@ -59,12 +61,10 @@ export class ParticipantsComponent implements OnInit {
     console.log(url);
   }
 
-  getDisplayedColumns(): string[] {
-    let columnsToDisplay = ['first_name', 'email', 'phone', 'from', 'institute', 'year', 'cv', 'stage'];
-    const columnsToDisplayMobile = ['first_name', 'stage'];
-    if (window.innerWidth < 600) columnsToDisplay = columnsToDisplayMobile
-    if (this.authService.getRole() == "admin") columnsToDisplay.push('entity');
-    return columnsToDisplay;
+  getDisplayedColumns(): void {
+    this.selectedColumns = ['name', 'email', 'phone', 'from', 'institute', 'year', 'cv', 'stage'];
+    const columnsToDisplayMobile = ['name', 'stage'];
+    if (window.innerWidth < 600) this.selectedColumns = columnsToDisplayMobile
+    if (this.authService.getRole() == "admin") this.selectedColumns.push('entity');
   }
-
 }
