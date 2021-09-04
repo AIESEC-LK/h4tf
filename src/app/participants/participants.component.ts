@@ -5,6 +5,7 @@ import {MatTableDataSource} from '@angular/material/table';
 import {AuthService} from "../auth/auth.service";
 import {DialogComponent} from "../dialog/dialog.component";
 import {MatDialog} from "@angular/material/dialog";
+import {Participant} from "../interfaces/participant";
 
 @Component({
   selector: 'app-signups',
@@ -13,7 +14,7 @@ import {MatDialog} from "@angular/material/dialog";
 })
 export class ParticipantsComponent implements OnInit {
 
-  participants: {}[] = [];
+  participants: Participant[] = [];
 
   columns = ['name', 'email', 'phone', 'from', 'institute', 'interest', 'year', 'cv', 'stage', 'signed-up',
     'contacted', 'rejected', 'applied', 'accepted', 'approved', 'realized', 'finished', 'completed', 'ELD convert'];
@@ -22,7 +23,13 @@ export class ParticipantsComponent implements OnInit {
   // @ts-ignore
   @ViewChild(MatSort) sort: MatSort;
   dataSource = new MatTableDataSource(this.participants);
-  filter = "";
+  filter = {
+    quick_filter: "",
+    signed_up: {
+      start: null,
+      end: null
+    }
+  };
 
   renderedData: any;
 
@@ -31,9 +38,9 @@ export class ParticipantsComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      this.participants = <{}[]>await this.participantsService.getParticipants();
+      this.participants = await this.participantsService.getParticipants();
       console.log("Participants: ", this.participants);
-      this.dataSource = new MatTableDataSource<{}>(this.participants);
+      this.dataSource = new MatTableDataSource<Participant>(this.participants);
       this.dataSource.sort = this.sort;
       this.dataSource.connect().subscribe(d => this.renderedData = d);
       this.getDisplayedColumns();
@@ -53,7 +60,23 @@ export class ParticipantsComponent implements OnInit {
   }
 
   public doFilter() {
-    this.dataSource.filter = this.filter.trim().toLocaleLowerCase();
+    console.log("Filter", this.filter)
+    this.dataSource.data = this.participants;
+    this.dataSource.filter = this.filter.quick_filter.trim().toLocaleLowerCase();
+
+    // Signed up date filters
+    let signed_up_filter = this.filter.signed_up;
+    if (signed_up_filter.start != null) {
+      this.dataSource.data = this.dataSource.data.filter(e => {
+        return Date.parse(e.createdTimeStamp) >= Date.parse(signed_up_filter.start!)
+      });
+    }
+    if (signed_up_filter.end != null) {
+      this.dataSource.data = this.dataSource.data.filter(e=> {
+        console.log(Date.parse(e.createdTimeStamp), Date.parse(signed_up_filter.end!));
+        return Date.parse(e.createdTimeStamp)  <= Date.parse(signed_up_filter.end!) + 60*60*24*1000
+      });
+    }
   }
 
   public async openCV(filename: string) {
@@ -62,7 +85,7 @@ export class ParticipantsComponent implements OnInit {
   }
 
   getDisplayedColumns(): void {
-    this.selectedColumns = ['name', 'email', 'phone', 'from', 'institute', 'year', 'cv', 'stage'];
+    this.selectedColumns = ['name', 'email', 'phone', 'from', 'institute', 'year', 'cv', 'stage', 'signed-up'];
     const columnsToDisplayMobile = ['name', 'stage'];
     if (window.innerWidth < 600) this.selectedColumns = columnsToDisplayMobile
     if (this.authService.getRole() == "admin") this.selectedColumns.push('entity');

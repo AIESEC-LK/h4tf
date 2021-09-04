@@ -4,23 +4,40 @@
     <mat-spinner></mat-spinner>
   </div>
 
-  <div fxLayout fxLayoutAlign="space-between center" *ngIf="participants.length != 0" fxLayoutGap="20px" class="control">
+  <div fxLayout="column" *ngIf="participants.length != 0" class="control">
 
-    <button mat-button (click)="exporter.exportTable('csv', {fileName: 'participants'})">Export</button>
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px;">
+      <span>{{dataSource.filteredData.length}} results</span>
 
-    <div fxFlex="100"></div>
+      <div fxflex="100" fxFlex flex></div>
 
-    <mat-form-field>
-      <mat-label>Columns</mat-label>
-      <mat-select multiple [(ngModel)]="selectedColumns">
-        <mat-option *ngFor="let column of columns" [value]="column">{{column}}</mat-option>
-      </mat-select>
-    </mat-form-field>
+      <button mat-button (click)="exporter.exportTable('csv', {fileName: 'participants'})">Export</button>
 
+      <mat-form-field>
+        <mat-label>Columns</mat-label>
+        <mat-select multiple [(ngModel)]="selectedColumns">
+          <mat-option *ngFor="let column of columns" [value]="column">{{column}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
 
-    <mat-form-field>
-      <input matInput type="text" (keyup)="doFilter()" placeholder="Filter" [(ngModel)]="filter">
-    </mat-form-field>
+    <div fxLayout="row" fxLayoutGap="20px">
+
+      <mat-form-field>
+        <input matInput type="text" (keyup)="doFilter()" placeholder="Quick Filter" [(ngModel)]="filter.quick_filter">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Signed Up</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate [(ngModel)]="filter.signed_up.start" placeholder="Start date">
+          <input matEndDate [(ngModel)]="filter.signed_up.end" placeholder="End date" (dateChange)="doFilter()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+
+    </div>
   </div>
 
 
