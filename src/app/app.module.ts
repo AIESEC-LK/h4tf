@@ -13,7 +13,7 @@ import {MatInputModule} from "@angular/material/input";
 import {MatRadioModule} from "@angular/material/radio";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {MatSelectModule} from "@angular/material/select";
-import {MatOptionModule} from "@angular/material/core";
+import {MatNativeDateModule, MatOptionModule} from "@angular/material/core";
 import {MatAutocompleteModule} from "@angular/material/autocomplete";
 import {MatFileUploadModule} from 'angular-material-fileupload';
 import {MatIconModule} from "@angular/material/icon";
@@ -38,7 +38,7 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ViewComponent } from './participants/view/view.component';
 import { PaymentComponent } from './payment/payment.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
-import {MatTab} from "@angular/material/tabs";
+import { MatDatepickerModule} from "@angular/material/datepicker";
 
 @NgModule({
   declarations: [
@@ -78,7 +78,9 @@ import {MatTab} from "@angular/material/tabs";
     MatTableModule,
     MatSortModule,
     NgxMatSelectSearchModule,
-    MatTableExporterModule
+    MatTableExporterModule,
+    MatDatepickerModule,
+    MatNativeDateModule
   ],
   providers: [
     {

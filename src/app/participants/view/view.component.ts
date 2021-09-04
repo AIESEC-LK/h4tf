@@ -59,12 +59,14 @@ export class ViewComponent implements OnInit {
 
   public getStagesSoFar() {
     let stages = ["signed up"];
+    //let stages = [];
     for (let stage of this.stagesFlow) {
-      if (stage == this.participant?.status) break;
+      if (stage == "signed up") continue;
+      // if (stage == this.participant?.status) break;
       // @ts-ignore
       if (this.participant[stage+'Timestamp'] !== undefined) stages.push(stage);
     }
-    stages.push(<string>this.participant?.status);
+    //if (stages.indexOf(<string>this.participant?.status) !=  -1) stages.push(<string>this.participant?.status);
     return stages;
   }
 

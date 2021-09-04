@@ -10,5 +10,5 @@ export interface Participant {
   entity: string,
   year: string,
   cv_filename: string,
-  createdTimestamp: string
+  createdTimeStamp: string
 }

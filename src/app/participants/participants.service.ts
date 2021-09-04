@@ -11,7 +11,7 @@ export class ParticipantsService {
 
   constructor(private authService: AuthService, private firestore: AngularFirestore,  private storage: AngularFireStorage) { }
 
-  async getParticipants(): Promise<{}[]> {
+  async getParticipants(): Promise<Participant[]> {
     await this.authService.forceLogin();
 
     let participantsDoc;
@@ -20,10 +20,10 @@ export class ParticipantsService {
         .where('entity', '==', this.authService.getEntity()).orderBy("lastModifiedTimestamp", 'desc');
     } else participantsDoc = await this.firestore.firestore.collection('participants').orderBy("lastModifiedTimestamp", 'desc')
 
-    let result: {}[] = []
+    let result: Participant[] = []
     const querySnapshot = await participantsDoc.get();
     querySnapshot.forEach((doc) => {
-      result.push(doc.data());
+      result.push(<Participant> doc.data());
     })
     return result;
   }
