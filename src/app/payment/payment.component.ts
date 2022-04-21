@@ -1,7 +1,7 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import {SignUpService} from "../sign-up/sign-up.service";
-import {Observable, ReplaySubject, Subject} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
+import {Observable} from "rxjs";
+import {FormControl, FormGroup} from "@angular/forms";
 import {map, startWith} from 'rxjs/operators';
 import {MatDialog} from '@angular/material/dialog';
 import {DialogComponent} from "../dialog/dialog.component";
@@ -32,24 +32,37 @@ export class PaymentComponent implements OnInit {
   });
 
   custom_fields = {
-    custom_payment: true
+    custom_payment: true,
+    email: "",
+    program: "H4TF",
+    paid_amount: "5000 LKR"
   }
 
-  custom_fields_b64: string;
+  currency = "LKR";
+
+  custom_fields_b64: string = "";
+
+  latch  = 0;
 
   constructor(private signUpService: SignUpService, private dialog: MatDialog, private route: ActivatedRoute,
               private fns: AngularFireFunctions) {
-    let objJsonStr = JSON.stringify(this.custom_fields);
-    this.custom_fields_b64 = btoa(objJsonStr);
-    console.log(this.custom_fields_b64);
   }
 
   async ngOnInit(): Promise<void> {
     if (!this.route.snapshot.paramMap.get("email")) return;
     const email = <string>this.route.snapshot.paramMap.get("email");
     this.form.get("email")?.setValue(email);
+    this.custom_fields.email = email;
+
+    let objJsonStr = JSON.stringify(this.custom_fields);
+    this.custom_fields_b64 = btoa(objJsonStr);
+    console.log(email);
+    console.log(this.custom_fields);
+    console.log(this.custom_fields_b64);
+    console.log(atob(this.custom_fields_b64));
 
     await this.getPaymentKey();
+    await this.getPaymentCurrency();
 
     this.signUpService.getCountries().subscribe((data: string[]) => {
       this.countries.raw = data;
@@ -85,7 +98,23 @@ export class PaymentComponent implements OnInit {
     const callable = this.fns.httpsCallable('getPaymentKey');
     const paymentKey =  await callable({email: this.form.get("email")?.value}).toPromise();
     this.form.get("paymentKey")?.setValue(paymentKey);
+    this.latch++;
   }
+
+  public async getPaymentCurrency() {
+    const callable = this.fns.httpsCallable('getPaymentCurrency');
+    this.currency = await callable({email: this.form.get("email")?.value}).toPromise();
+
+    if (this.currency == "USD") {
+      this.custom_fields.paid_amount = "40 USD";
+      let objJsonStr = JSON.stringify(this.custom_fields);
+      this.custom_fields_b64 = btoa(objJsonStr);
+      console.log("In getPaymentCurrency", atob(this.custom_fields_b64));
+    }
+
+    this.latch++;
+  }
+
 
   private _filter(value: string, options: string[]): string[] {
     const filterValue = value.toLowerCase();
