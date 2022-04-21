@@ -48,14 +48,14 @@
           </div>
 
           <div fxLayout="row" fxLayoutGap="20px">
-            <input type="hidden" name="process_currency" value="LKR">
+            <input type="hidden" name="process_currency" value="{{ currency }}">
             <input type="hidden" name="cms" value="PHP">
             <input type="hidden" name="secret_key" value="9937e0dc-6b10-4632-bd5c-a662769af513">
             <input type="hidden" name="payment" formControlName="paymentKey">
             <input type="hidden" name="email" formControlName="email">
             <input type="hidden" name="custom_fields" value="{{ custom_fields_b64 }}">
 
-            <button type="submit" class="submit_button" mat-raised-button color="primary" (click)="submitForm(form2)">
+            <button type="submit" class="submit_button" mat-raised-button color="primary" (click)="submitForm(form2)" [disabled]="latch != 2">
               NEXT
             </button>
           </div>
