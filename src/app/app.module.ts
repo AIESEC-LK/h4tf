@@ -5,6 +5,8 @@ import { HttpClientModule } from '@angular/common/http';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { SignUpComponent } from './sign-up/sign-up.component';
+// import { CompaniesComponent } from './companies/companies.component';
+// import { CompaniesAddComponent } from './companies-add/companies-add.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import {MatCardModule} from "@angular/material/card";
@@ -44,6 +46,8 @@ import { MatDatepickerModule} from "@angular/material/datepicker";
   declarations: [
     AppComponent,
     SignUpComponent,
+    // CompaniesComponent,
+    // CompaniesAddComponent,
     DialogComponent,
     LoginComponent,
     ParticipantsComponent,

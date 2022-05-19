@@ -56,7 +56,7 @@ export class AuthService {
         data: {
           type: "error",
           title: "Error logging out",
-          message: e.message
+          message: e
         }
       })
       throw e;
@@ -77,7 +77,7 @@ export class AuthService {
         data: {
           type: "error",
           title: "Error logging in",
-          message: e.message
+          message: e
         }
       })
       return false;

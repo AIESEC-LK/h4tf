@@ -23,6 +23,10 @@ export class SignUpService {
    return this.http.get<UNIVERSITY[]>("assets/data/universities.json");
   }
 
+  getInterests(): Observable<string[]> {
+    return this.http.get<string[]>("assets/data/interests.json");
+   }
+
   getCountries(): Observable<string[]> {
     return this.http.get<string[]>("assets/data/countries.json");
   }

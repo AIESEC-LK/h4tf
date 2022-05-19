@@ -92,9 +92,19 @@
 
           <div fxLayout="column" fxLayoutGap="20px">
 
-            <mat-form-field fxFlex="100">
+          </div>
+
+          <div fxLayout="column" fxLayoutGap="20px">
+
+            <mat-form-field>
               <mat-label>Field(s) of Interest</mat-label>
-              <input matInput formControlName="interest" required>
+              <mat-select formControlName="interest" required>
+                <!-- <input matInput formControlName="interestFilter" (keyup)="doInterestFilter($event)"
+                       appearance="fill" placeholder="Search" class="search"/> -->
+                <mat-option *ngFor="let interest of interests" [value]="interest">
+                  {{interest}}
+                </mat-option>
+              </mat-select>
             </mat-form-field>
 
           </div>

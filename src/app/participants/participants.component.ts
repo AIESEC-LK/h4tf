@@ -12,6 +12,7 @@ import {Participant} from "../interfaces/participant";
   templateUrl: './participants.component.html',
   styleUrls: ['./participants.component.css']
 })
+
 export class ParticipantsComponent implements OnInit {
 
   participants: Participant[] = [];
@@ -44,6 +45,7 @@ export class ParticipantsComponent implements OnInit {
       this.dataSource.sort = this.sort;
       this.dataSource.connect().subscribe(d => this.renderedData = d);
       this.getDisplayedColumns();
+      console.log("Role: ", this.authService.getRole());
     } catch (e) {
         this.dialog.open(DialogComponent, {
           data: {

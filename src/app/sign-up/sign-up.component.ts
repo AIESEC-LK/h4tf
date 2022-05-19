@@ -1,12 +1,12 @@
-import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
-import {HttpClient} from "@angular/common/http";
-import {SignUpService} from "./sign-up.service";
-import {Observable, ReplaySubject, Subject} from "rxjs";
-import {FormControl, FormGroup, Validators} from "@angular/forms";
-import {map, startWith} from 'rxjs/operators';
-import {MatDialog} from '@angular/material/dialog';
-import {DialogComponent} from "../dialog/dialog.component";
-import {ActivatedRoute} from "@angular/router";
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { HttpClient } from "@angular/common/http";
+import { SignUpService } from "./sign-up.service";
+import { Observable, ReplaySubject, Subject } from "rxjs";
+import { FormControl, FormGroup, Validators } from "@angular/forms";
+import { map, startWith } from 'rxjs/operators';
+import { MatDialog } from '@angular/material/dialog';
+import { DialogComponent } from "../dialog/dialog.component";
+import { ActivatedRoute } from "@angular/router";
 
 interface UNIVERSITY {
   entity: string,
@@ -21,10 +21,15 @@ interface UNIVERSITY {
 export class SignUpComponent implements OnInit {
 
   universities: UNIVERSITY[] = [];
+  interests: string[] = [];
   countries = {
     raw: [] as string[],
     filtered: null as null | Observable<string[]>
   };
+  // interests = {
+  //   raw: [] as string[],
+  //   filtered: null as null | Observable<string[]>
+  // };
   years = ["School Leaver", "1st Year", "2nd Year", "3rd Year", "4th Year", "Graduate"];
 
   form = new FormGroup({
@@ -32,15 +37,15 @@ export class SignUpComponent implements OnInit {
     last_name: new FormControl(null, [Validators.required]),
     email: new FormControl(null, [Validators.required, Validators.email]),
     phone: new FormControl(null, [Validators.required,
-      Validators.pattern('(^(0\\s*)([0-9]\\s*){8}[0-9]$)|^\\+([0-9]\\s*)*$')]),
+    Validators.pattern('(^(0\\s*)([0-9]\\s*){8}[0-9]$)|^\\+([0-9]\\s*)*$')]),
     from: new FormControl(null, [Validators.required]),
     university: new FormControl(),
     universityFilter: new FormControl(),
     country: new FormControl(),
     year: new FormControl(null, [Validators.required]),
     interest: new FormControl(null, [Validators.required]),
-    consent: new FormControl(null,  [Validators.requiredTrue]),
-    cv: new FormControl(null,  [Validators.required]),
+    consent: new FormControl(null, [Validators.requiredTrue]),
+    cv: new FormControl(null, [Validators.required]),
     cv_filename: new FormControl(),
     entity: new FormControl()
   });
@@ -79,11 +84,15 @@ export class SignUpComponent implements OnInit {
         map((value: any) => this._filter(value, this.countries.raw))
       );
 
+    this.signUpService.getInterests().subscribe(data => {
+      this.interests = data;
+    });
+
   }
 
   // @ts-ignore
   onFileSelected(event) {
-    const file:File = event.target.files[0];
+    const file: File = event.target.files[0];
     this.formData.cv_file = file;
     if (file) {
       this.formData.cv = file.name;
@@ -103,15 +112,15 @@ export class SignUpComponent implements OnInit {
 
   isFormValid(): boolean {
     if (!this.form.valid) return false;
-    if (this.form.get("from")?.value == "local" &&  this.form.get("university")?.value != null &&
+    if (this.form.get("from")?.value == "local" && this.form.get("university")?.value != null &&
       this.form.get("university")?.value != "") return true;
-    if (this.form.get("from")?.value == "international" &&  this.form.get("country")?.value != null &&
+    if (this.form.get("from")?.value == "international" && this.form.get("country")?.value != null &&
       this.form.get("country")?.value != "") return true;
     return false;
   }
 
   async submitForm() {
-    let loadingDialog = this.dialog.open(DialogComponent, {data: {type: "loading"}});
+    let loadingDialog = this.dialog.open(DialogComponent, { data: { type: "loading" } });
     try {
       if (!this.form.valid) throw "There was an error with your form";
       if (await this.signUpService.checkDuplicateEmail(this.form.get("email")?.value)) throw "Your email has already been used to sign up.";
@@ -137,14 +146,14 @@ export class SignUpComponent implements OnInit {
       }).afterClosed().subscribe(() => {
         window.location.href = "https://aiesec.lk/h4tf"
       })
-    } catch (err){
-        this.dialog.open(DialogComponent, {
-          data: {
-            type: "error",
-            title: "ERROR",
-            message: "This email has already been used to sign up."
-          }
-        })
+    } catch (err) {
+      this.dialog.open(DialogComponent, {
+        data: {
+          type: "error",
+          title: "ERROR",
+          message: "This email has already been used to sign up."
+        }
+      })
     } finally {
       loadingDialog.close();
     }

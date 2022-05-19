@@ -7,10 +7,10 @@ const sheets = require("./sheets");
 const slack = require("./slack");
 
 exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
-    const userClaims = (await db.collection('users').doc(user.email).get()).data();
-    console.log(user.email, user.uid, userClaims);
-    await admin.auth().setCustomUserClaims(user.uid, userClaims);
-    console.log((await admin.auth().getUser(user.uid)).customClaims);
+  const userClaims = (await db.collection('users').doc(user.email).get()).data();
+  console.log(user.email, user.uid, userClaims);
+  await admin.auth().setCustomUserClaims(user.uid, userClaims);
+  console.log((await admin.auth().getUser(user.uid)).customClaims);
 });
 
 exports.onParticipantCreate = functions.firestore
@@ -21,7 +21,7 @@ exports.onParticipantCreate = functions.firestore
     await participantRef.set({
       status: "signed up",
       createdTimeStamp: timestamp
-    }, {merge: true});
+    }, { merge: true });
     await sheets.add((await participantRef.get()).data());
   });
 
@@ -33,8 +33,30 @@ exports.onParticipantUpdate = functions.firestore
     const timestamp = new Date().toISOString();
     await participantRef.set({
       lastModifiedTimestamp: timestamp
-    }, {merge: true});
+    }, { merge: true });
   });
+
+// exports.onCompanyCreate = functions.firestore
+//   .document('companies/{company_name}')
+//   .onCreate(async (snap, context) => {
+//     const companyRef = db.collection('companies').doc(snap.id);
+//     const timestamp = new Date().toISOString();
+//     await companyRef.set({
+//       createdTimeStamp: timestamp
+//     }, { merge: true });
+//     await sheets.add((await companyRef.get()).data());
+//   });
+
+// exports.onCompanyUpdate = functions.firestore
+//   .document('companies/{company_name}')
+//   .onUpdate(async (snap, context) => {
+//     if (snap.before.data().lastModifiedTimestamp !== snap.after.data().lastModifiedTimestamp) return;
+//     const participantRef = db.collection('companies').doc(snap.after.id);
+//     const timestamp = new Date().toISOString();
+//     await participantRef.set({
+//       lastModifiedTimestamp: timestamp
+//     }, { merge: true });
+//   });
 
 exports.getPaymentKey = functions.https.onCall(async (data, context) => {
   const participantRef = await (await (db.collection('participants').doc(data.email)).get()).data();
@@ -75,7 +97,7 @@ exports.confirmPayment = functions.https.onRequest(async (req, res) => {
   const payment = req.body;
   console.log(payment)
   await admin.firestore().collection('payments').doc(payment.email + " || " + payment.time).set(payment);
-  res.json({result: `Payment added.`});
+  res.json({ result: `Payment added.` });
 });
 
 exports.onPaymentCreate = functions.firestore
