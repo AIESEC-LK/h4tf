@@ -36,28 +36,6 @@ exports.onParticipantUpdate = functions.firestore
     }, { merge: true });
   });
 
-// exports.onCompanyCreate = functions.firestore
-//   .document('companies/{company_name}')
-//   .onCreate(async (snap, context) => {
-//     const companyRef = db.collection('companies').doc(snap.id);
-//     const timestamp = new Date().toISOString();
-//     await companyRef.set({
-//       createdTimeStamp: timestamp
-//     }, { merge: true });
-//     await sheets.add((await companyRef.get()).data());
-//   });
-
-// exports.onCompanyUpdate = functions.firestore
-//   .document('companies/{company_name}')
-//   .onUpdate(async (snap, context) => {
-//     if (snap.before.data().lastModifiedTimestamp !== snap.after.data().lastModifiedTimestamp) return;
-//     const participantRef = db.collection('companies').doc(snap.after.id);
-//     const timestamp = new Date().toISOString();
-//     await participantRef.set({
-//       lastModifiedTimestamp: timestamp
-//     }, { merge: true });
-//   });
-
 exports.getPaymentKey = functions.https.onCall(async (data, context) => {
   const participantRef = await (await (db.collection('participants').doc(data.email)).get()).data();
   const entity = participantRef.entity;
