@@ -7,10 +7,10 @@ const sheets = require("./sheets");
 const slack = require("./slack");
 
 exports.onUserCreate = functions.auth.user().onCreate(async (user) => {
-    const userClaims = (await db.collection('users').doc(user.email).get()).data();
-    console.log(user.email, user.uid, userClaims);
-    await admin.auth().setCustomUserClaims(user.uid, userClaims);
-    console.log((await admin.auth().getUser(user.uid)).customClaims);
+  const userClaims = (await db.collection('users').doc(user.email).get()).data();
+  console.log(user.email, user.uid, userClaims);
+  await admin.auth().setCustomUserClaims(user.uid, userClaims);
+  console.log((await admin.auth().getUser(user.uid)).customClaims);
 });
 
 exports.onParticipantCreate = functions.firestore
@@ -21,7 +21,7 @@ exports.onParticipantCreate = functions.firestore
     await participantRef.set({
       status: "signed up",
       createdTimeStamp: timestamp
-    }, {merge: true});
+    }, { merge: true });
     await sheets.add((await participantRef.get()).data());
   });
 
@@ -33,7 +33,7 @@ exports.onParticipantUpdate = functions.firestore
     const timestamp = new Date().toISOString();
     await participantRef.set({
       lastModifiedTimestamp: timestamp
-    }, {merge: true});
+    }, { merge: true });
   });
 
 exports.getPaymentKey = functions.https.onCall(async (data, context) => {
@@ -75,7 +75,7 @@ exports.confirmPayment = functions.https.onRequest(async (req, res) => {
   const payment = req.body;
   console.log(payment)
   await admin.firestore().collection('payments').doc(payment.email + " || " + payment.time).set(payment);
-  res.json({result: `Payment added.`});
+  res.json({ result: `Payment added.` });
 });
 
 exports.onPaymentCreate = functions.firestore
