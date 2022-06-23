@@ -26,10 +26,6 @@ export class SignUpComponent implements OnInit {
     raw: [] as string[],
     filtered: null as null | Observable<string[]>
   };
-  // interests = {
-  //   raw: [] as string[],
-  //   filtered: null as null | Observable<string[]>
-  // };
   years = ["School Leaver", "1st Year", "2nd Year", "3rd Year", "4th Year", "Graduate"];
 
   form = new FormGroup({

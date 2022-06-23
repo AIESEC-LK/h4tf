@@ -1,0 +1,130 @@
+<div fxLayout="column" fxLayoutAlign="stretch stretch" [ngClass.gt-sm]="'pad_table'" fxLayoutGap="20px;">
+
+  <div *ngIf="companies.length == 0" fxLayoutAlign="center center">
+    <mat-spinner></mat-spinner>
+  </div>
+
+  <div fxLayout="column" *ngIf="companies.length != 0" class="control">
+    <div fxLayout="row" fxLayoutAlign="space-around center" fxLayoutGap="20px;">
+      <span>{{dataSource.filteredData.length}} results</span>
+
+      <div fxflex="100" fxFlex flex></div>
+
+      <button mat-button (click)="exporter.exportTable('csv', {fileName: 'companies'})">Export</button>
+
+      <mat-form-field>
+        <mat-label>Columns</mat-label>
+        <mat-select multiple [(ngModel)]="selectedColumns">
+          <mat-option *ngFor="let column of columns" [value]="column">{{column}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+
+    <div fxLayout="row" fxLayoutGap="20px">
+      <mat-form-field>
+        <input matInput type="text" (keyup)="doFilter()" placeholder="Quick Filter" [(ngModel)]="filter.quick_filter">
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Signed Up</mat-label>
+        <mat-date-range-input [rangePicker]="picker">
+          <input matStartDate [(ngModel)]="filter.signed_up.start" placeholder="Start date">
+          <input matEndDate [(ngModel)]="filter.signed_up.end" placeholder="End date" (dateChange)="doFilter()">
+        </mat-date-range-input>
+        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-date-range-picker #picker></mat-date-range-picker>
+      </mat-form-field>
+    </div>
+  </div>
+
+
+  <table mat-table matSort [dataSource]="dataSource" [hidden]="companies.length == 0" matTableExporter
+    #exporter="matTableExporter" class="mat-elevation-z1">
+
+    <ng-container matColumnDef="company_name">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Name </th>
+      <td mat-cell *matCellDef="let company"> {{company.company_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company_address" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Address </th>
+      <td mat-cell *matCellDef="let company"> {{company.company_address}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company_email" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Email </th>
+      <td mat-cell *matCellDef="let company"> {{company.company_email}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="entity" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header></th>
+      <td mat-cell *matCellDef="let company"> {{company.entity}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="company_contact" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Company Contact </th>
+      <td mat-cell *matCellDef="let company"> {{company.company_phone}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="full_name" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Full Name </th>
+      <td mat-cell *matCellDef="let company"> {{company.full_name}} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="designation" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Designation </th>
+      <td mat-cell *matCellDef="let company"> {{ company.designation }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="email" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Email Address </th>
+      <td mat-cell *matCellDef="let company"> {{ company.email }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contact" [fxHide.lt-sm]="true">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contact </th>
+      <td mat-cell *matCellDef="let company"> {{ company.phone }} </td>
+    </ng-container>
+
+    <ng-container matColumnDef="signed-up">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Signed Up </th>
+      <td mat-cell *matCellDef="let participant"> {{ companiesService.getTimestamp(participant.createdTimeStamp) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="contacted">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Contacted </th>
+      <td mat-cell *matCellDef="let participant"> {{ companiesService.getTimestamp(participant.contactedTimestamp) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="rejected">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Rejected </th>
+      <td mat-cell *matCellDef="let participant"> {{ companiesService.getTimestamp(participant.rejectedTimestamp) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="accepted">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header> Accepted </th>
+      <td mat-cell *matCellDef="let participant"> {{ companiesService.getTimestamp(participant.acceptedTimestamp) }}
+      </td>
+    </ng-container>
+
+    <ng-container matColumnDef="stage">
+      <th mat-header-cell *matHeaderCellDef mat-sort-header style="text-align: center;"></th>
+      <td mat-cell *matCellDef="let participant">
+        <span style="width:100%;" class="stage" [ngClass]="{
+                'contacted': participant.status === 'contacted',
+                'rejected': participant.status === 'rejected',
+                'accepted': participant.status === 'accepted'
+              }">
+          {{ participant.status }}
+        </span>
+      </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="selectedColumns"></tr>
+    <tr mat-row *matRowDef="let myRowData; columns:selectedColumns"></tr>
+
+  </table>
+</div>

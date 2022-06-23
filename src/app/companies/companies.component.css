@@ -1,0 +1,161 @@
+.pad_table {
+  margin-left:50px;
+  margin-right:50px;
+  margin-bottom:50px;
+}
+
+::ng-deep tr.mat-header-row {
+  height: 56px;
+  background-color:#019875;
+}
+
+::ng-deep th.mat-header-cell {
+  text-align:left;
+  color:white;
+  font-weight:500;
+}
+
+::ng-deep .mat-cell, .mat-footer-cell {
+  font-size: 12px;
+}
+
+::ng-deep tr.mat-row:hover {
+  background-color:#F4F4F4;
+  cursor:pointer;
+}
+
+::ng-deep .mat-sort-header-content {
+  padding:15px;
+}
+
+::ng-deep .mat-sort-header-arrow {
+  color:white;
+}
+
+::ng-deep table.mat-table {
+  border-radius:5px;
+}
+
+mat-icon {
+  color:#019875;
+}
+
+.cv_icon {
+  font-weight:lighter;
+}
+
+.stage {
+  background-color:#CCCCCC;
+  border-radius:3px;
+  padding:5px 10px;
+  font-weight:500;
+  text-align:center;
+  min-width:300px;
+}
+
+.stage:hover{
+  cursor:pointer;
+}
+
+
+.contacted {
+  background-color:#f7ca18;
+  color:black;
+}
+
+.rejected {
+  background-color:#d64541;
+  color:white;
+}
+
+.applied {
+  background-color:#013243;
+  color:white;
+}
+
+.accepted {
+  background-color:#4daf7c;
+  color:black;
+}
+
+.approved {
+  background-color:#019875;
+  color:white;
+}
+
+.realized {
+  background-color:#3a539b;
+  color:white;
+}
+
+.finished {
+  background-color:#663399;
+  color:white;
+}
+
+.completed {
+  background-color:#4b77be;
+  color:white;
+}
+
+.eld {
+  background-color:#f15a22;
+  color:white;
+}
+
+
+table {
+  width: 100%;
+}
+
+::ng-deep mat-header-cell, mat-cell {
+  justify-content: center !important;
+}
+.mat-row {
+  height: auto;
+}
+
+.mat-cell {
+  padding: 5px 15px;
+}
+
+.mat-column-first_name {
+  max-width: 150px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-email {
+  max-width: 150px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-institute {
+  max-width: 100px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.mat-column-interest {
+  max-width: 100px; /* feel free to include any other value */
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.control {
+  margin-bottom:20px;
+  padding:10px;
+  padding-bottom:0px;
+  border-color:#019875;
+  border-bottom-style:dashed;
+  border-width:1px;
+}
+
+::ng-deep .mat-form-field-appearance-legacy .mat-form-field-wrapper {
+  padding-bottom: 1em;
+}
