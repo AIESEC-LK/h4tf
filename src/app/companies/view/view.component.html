@@ -1,0 +1,95 @@
+<div fxLayoutAlign="center center" style="margin-bottom:50px;">
+  <mat-spinner *ngIf="!participant"></mat-spinner>
+
+  <div *ngIf="participant"  fxFlex.gt-sm="50" [class.mat-elevation-z2]="true">
+    <div fxLayout="row" class="profile_header" fxLayoutAlign="space-between center">
+      <span>{{participant?.first_name}} {{participant?.last_name}}</span>
+      <div class="status"
+           [ngClass]="{
+                'contacted': participant.status === 'contacted',
+                'rejected': participant.status === 'rejected',
+                'applied': participant.status === 'applied',
+                'accepted': participant.status === 'accepted',
+                'approved': participant.status === 'approved',
+                'realized': participant.status === 'realized',
+                'finished': participant.status === 'finished',
+                'completed': participant.status === 'completed',
+                'eld': participant.status === 'ELD convert'
+              }">
+        {{participant?.status}}
+      </div>
+    </div>
+
+    <div class="profile_content" fxLayoutGap="20px" fxLayout="column">
+
+      <h2>Basic Information</h2>
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Name</span>
+        <span>{{participant.first_name}} {{participant.last_name}}</span>
+      </div>
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Email Address</span>
+        <span>{{participant.email}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Phone Number</span>
+        <span>{{participant.phone}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.country != null">
+        <span style="font-weight:500; color:#019875">Country</span>
+        <span>{{participant.country}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.university != null">
+        <span style="font-weight:500; color:#019875">University/Institute</span>
+        <span>{{participant.university}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Year of Study</span>
+        <span>{{participant.year}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Interests</span>
+        <span>{{participant.interest}}</span>
+      </div>
+
+      <div fxLayout="column">
+        <span style="font-weight:500; color:#019875">Assigned Entity</span>
+        <span>{{participant.entity}}</span>
+      </div>
+
+      <div fxLayout="column" *ngIf="participant.cv_filename != null">
+        <span style="font-weight:500; color:#019875">CV</span>
+        <span><a target="_blank" href="https://firebasestorage.googleapis.com/v0/b/h4tf-portal2.appspot.com/o/{{ participant.cv_filename }}?alt=media">
+          <mat-icon class="cv_icon" aria-hidden="false" aria-label="Example home icon">file_present</mat-icon>
+        </a></span>
+      </div>
+
+      <br>
+
+      <div>
+        <h2>Timeline</h2>
+        <div *ngFor="let stage of getStagesSoFar()" fxLayout="column" style="margin-bottom:10px;">
+          <span style="font-weight:500; color:#019875">{{stage}}</span>
+          <span>{{getTimestamp(stage)}}</span>
+        </div>
+      </div>
+
+      <div *ngIf="participant.status == 'accepted'" fxLayout="column" style="margin-top:30px;">
+        <span style="font-weight:500; color:#019875">Payment Link</span>
+        <span>https://h4tf.aiesec.lk/pay/{{participant.email}}</span>
+      </div>
+
+      <div fxLayout="row" fxLayoutAlign="end center" style="margin-top:50px;">
+        <div *ngFor="let nextStage of getNextStages()">
+          <button mat-button color="accent" (click)="changeStatus(nextStage)"> Change status to {{nextStage}}</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
