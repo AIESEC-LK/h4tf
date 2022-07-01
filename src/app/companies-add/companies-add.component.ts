@@ -7,7 +7,7 @@ import { map, startWith } from 'rxjs/operators';
 import { MatDialog } from '@angular/material/dialog';
 import { DialogComponent } from "../dialog/dialog.component";
 import { ActivatedRoute } from "@angular/router";
-import {AuthService} from "../auth/auth.service";
+import { AuthService } from "../auth/auth.service";
 
 interface UNIVERSITY {
   entity: string,
@@ -22,12 +22,6 @@ interface UNIVERSITY {
 export class CompaniesAddComponent implements OnInit {
 
   entities: string[] = [];
-  // universities: UNIVERSITY[] = [];
-  // countries = {
-  //   raw: [] as string[],
-  //   filtered: null as null | Observable<string[]>
-  // };
-  // years = ["School Leaver", "1st Year", "2nd Year", "3rd Year", "4th Year", "Graduate"];
 
   form = new FormGroup({
     company_name: new FormControl(null, [Validators.required]),
@@ -43,8 +37,6 @@ export class CompaniesAddComponent implements OnInit {
     entity: new FormControl()
   });
 
-  public filteredUniversities: UNIVERSITY[] = [];
-
   // @ts-ignore
   @ViewChild('universitySearch') inputEl: ElementRef;
 
@@ -52,25 +44,13 @@ export class CompaniesAddComponent implements OnInit {
   }
 
   async ngOnInit() {
-
     if (<string>this.route.snapshot.paramMap.get("entity")) {
       this.form.get("entity")?.setValue(<string>this.route.snapshot.paramMap.get("entity"));
     }
 
-    // this.form.get("entity")?.setValue("admin");
-    // this.form.get("entity")?.setValue(<string>this.authService.getEntity());
-    // console.log("Role: ", this.authService.getRole());
-    // console.log("Entity: ", this.authService.getEntity());
-
     this.signUpService.getEntities().subscribe(data => {
       this.entities = data;
     });
-
-  }
-
-  isFormValid(): boolean {
-    if (!this.form.valid) return false;
-    return true;
   }
 
   randomNumberInRange() {

@@ -7,7 +7,6 @@ import {environment} from "../../environments/environment";
 
 interface UNIVERSITY {
   entity: string,
-  //university: string
 }
 
 @Injectable({
@@ -19,10 +18,6 @@ export class CompaniesAddService {
     if (!environment.production) this.storage.storage.useEmulator('localhost', 9199);
   }
 
-  // getUniversities(): Observable<UNIVERSITY[]> {
-  //  return this.http.get<UNIVERSITY[]>("assets/data/universities.json");
-  // }
-
   getEntities(): Observable<string[]> {
     return this.http.get<string[]>("assets/data/entities.json");
   }
@@ -30,13 +25,6 @@ export class CompaniesAddService {
   async submitForm(formData: any): Promise<any> {
     return this.firestore.collection('companies').doc(formData.company_name).set(formData);
   }
-
-  // async uploadCV(cv: File): Promise<string> {
-  //   const fileName = Date.now().toString() + "_" + cv.name;
-  //   const ref = this.storage.ref(fileName);
-  //   await ref.put(cv);
-  //   return fileName;
-  // }
 
   async checkDuplicateCompany(company_name: string): Promise<Boolean> {
     return false;

@@ -40,18 +40,17 @@ export class CompaniesComponent implements OnInit {
   async ngOnInit() {
     try {
       this.companies = await this.companiesService.getCompanies();
-      console.log("Companies: ", this.companies);
       this.dataSource = new MatTableDataSource<Company>(this.companies);
       this.dataSource.sort = this.sort;
       this.dataSource.connect().subscribe(d => this.renderedData = d);
       this.getDisplayedColumns();
-      //console.log("Role: ", this.authService.getRole());
+
     } catch (e) {
         this.dialog.open(DialogComponent, {
           data: {
             type: "error",
             title: "ERROR",
-            message: e + "Entity:" + this.authService.getEntity() + " Role:"+ this.authService.getRole() + " Email:" + this.authService.getEmail()
+            message: e + "Entity:" + this.authService.getEntity() + "\nRole:"+ this.authService.getRole() + "\nEmail:" + this.authService.getEmail()
           }
         })
     }
@@ -62,7 +61,6 @@ export class CompaniesComponent implements OnInit {
   }
 
   public doFilter() {
-    console.log("Filter", this.filter)
     this.dataSource.data = this.companies;
     this.dataSource.filter = this.filter.quick_filter.trim().toLocaleLowerCase();
 
@@ -75,15 +73,9 @@ export class CompaniesComponent implements OnInit {
     }
     if (signed_up_filter.end != null) {
       this.dataSource.data = this.dataSource.data.filter(e=> {
-        console.log(Date.parse(e.createdTimeStamp), Date.parse(signed_up_filter.end!));
         return Date.parse(e.createdTimeStamp)  <= Date.parse(signed_up_filter.end!) + 60*60*24*1000
       });
     }
-  }
-
-  public async openCV(filename: string) {
-    const url = await this.companiesService.getCVDownloadUrl(filename);
-    console.log(url);
   }
 
   getDisplayedColumns(): void {

@@ -24,6 +24,7 @@
     "@angular/router": "~12.1.0",
     "angular-material-fileupload": "^3.0.2",
     "angular5-csv": "^0.2.11",
+    "date-fns": "^2.28.0",
     "firebase": "^7.0 || ^8.0",
     "mat-table-exporter": "^10.2.3",
     "ngx-mat-select-search": "^3.3.0",
